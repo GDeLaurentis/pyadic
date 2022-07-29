@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
 import functools
 import numpy
 import fractions
@@ -264,11 +257,14 @@ def LGRR(a, n):
 
 def rationalise(a, n=None, algorithm=(LGRR, MQRR)[1]):
     """Given (a, n) returns a fraction r / s such that r/s % n = a, by lattice reduction. r = sa + mn  <-> r/s % n = a"""
+    from .padic import PAdic
     if n is None:  # for FF argument
-        if type(a) is int:
+        if isinstance(a, int):
             return fractions.Fraction(a, 1)
-        elif type(a) is ModP:
+        elif isinstance(a, ModP):
             return rationalise(int(a), a.p, algorithm)
+        elif isinstance(a, PAdic):
+            return rationalise(int(a), a.p ** a.k, algorithm)
     return algorithm(a, n)
 
 

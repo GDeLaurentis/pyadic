@@ -1,8 +1,11 @@
 import pickle
 import random
 
+from fractions import Fraction as Q
+
 from pyadic import PAdic
 from pyadic.padic import padic_sqrt
+from pyadic.finite_field import rationalise, LGRR, MQRR
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -13,6 +16,14 @@ def test_picklable():
     mydump = pickle.dumps(obj, protocol=2)
     loaded = pickle.loads(mydump)
     assert obj == loaded
+
+
+def test_instantiation_from_complex_when_in_fied():
+    assert PAdic(1j, 2 ** 31 - 19, 5)
+
+
+def test_instantiation_from_string():
+    assert PAdic("3 + O(7)") == PAdic(3, 7, 1)
 
 
 def test_str_non_zero():
@@ -76,3 +87,8 @@ def test_sqrt_in_field():
     b = a ** 2
     c = padic_sqrt(b)
     assert a == c or a == -c
+
+
+def test_rationalisation_padic():
+    assert rationalise(PAdic(Q(7, 13), 2147483647, 12), algorithm=LGRR) == Q(7, 13)
+    assert rationalise(PAdic(Q(7, 13), 2147483647, 12), algorithm=MQRR) == Q(7, 13)

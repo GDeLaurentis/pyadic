@@ -53,6 +53,9 @@ def padicfy(func):
             if self.p != other.p:
                 raise ValueError(f"Can't cast a {other.p}-adic to a {self.p}-adic.")
             return func(self, other)
+        elif isinstance(other, FieldExtension):
+            # let FieldExtension deal with it
+            return NotImplemented
         else:  # let __init__ deal with it
             return func(self, PAdic(other, self.p, max((self.n + self.k, self.k))))
         # elif type(other) in [int, ModP, numpy.int64] or str(type(other)) == "long":
@@ -101,9 +104,7 @@ class PAdic(object):
 
     def __init__(self, num, p=None, k=None, n=0, from_addition=False):
         """0 ≤ num ≤ p ^ k - 1; p: prime; k: significant digits; n: power of prefactors of p (valuation)."""
-        if p is None or k is None:
-            raise Exception("Invalid p-adic initialisation: prime and significant digits are required.")
-        elif isinteger(num) or isinstance(num, ModP):
+        if isinteger(num) or isinstance(num, ModP):
             num = int(num)  # might get passed as FF number
             self.p = p
             factors_of_p = next((i for i, j in enumerate(to_base(num, p)) if j != 0), None)
@@ -123,10 +124,9 @@ class PAdic(object):
                 print("Lost all precision @", self)
         elif isinstance(num, fractions.Fraction):
             res = PAdic(num.numerator, p, k, n, from_addition) / PAdic(num.denominator, p, k, n, from_addition)
-            self.p = res.p
-            self.k = res.k
-            self.n = res.n
-            self.num = res.num
+            self.num, self.p, self.k, self.n = res.num, res.p, res.k, res.n
+        elif isinstance(num, str):
+            self.num, self.p, self.k, self.n = self.__rstr__(num)
         elif hasattr(num, "imag"):
             res = PAdic(num.real, p, k, n, from_addition)
             if num.imag != 0:
@@ -140,7 +140,7 @@ class PAdic(object):
             self.n = res.n
             self.num = res.num
         else:
-            raise Exception("Invalid p-adic initialisation")
+            raise Exception(f"Invalid p-adic initialisation: {num}, {p}, {k}, {n}, {from_addition}.")
 
     # GETTERS and SETTERS
 
@@ -206,8 +206,8 @@ class PAdic(object):
     def __repr__(self):
         return str(self)
 
-    @classmethod
-    def __inv_str__(cls, string):
+    @staticmethod
+    def __rstr__(string):
         """Constructor from string (inverse method to __str__ or __repr__)."""
         # get the prime
         prime = int(re.findall(r"O\((\d+)", string)[0])
@@ -229,7 +229,7 @@ class PAdic(object):
         mantissa = [int(re.sub(r"\*[\^\-\d+]{0,}", "", entry.replace(f"{prime}", "").replace(" ", ""))) for entry in string.split("+")[:-1]]
         significant_digits = len(mantissa)
         mantissa = sum([entry * prime ** i for i, entry in enumerate(mantissa)])
-        return cls(mantissa, p=prime, k=significant_digits, n=valuation)
+        return (mantissa, prime, significant_digits, valuation)
 
     # COMPARISON
 

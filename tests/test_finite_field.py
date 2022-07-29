@@ -2,10 +2,10 @@ import pickle
 import random
 import pytest
 
-from fractions import Fraction
+from fractions import Fraction as Q
 
 from pyadic import ModP, PAdic
-from pyadic.finite_field import extended_euclideal_algorithm, rationalise, MQRR, LGRR, finite_field_sqrt
+from pyadic.finite_field import extended_euclideal_algorithm, rationalise, MQRR, LGRR, finite_field_sqrt, chained_chinese_remainder
 from pyadic.field_extension import FieldExtension
 
 
@@ -17,6 +17,7 @@ def test_picklable():
     mydump = pickle.dumps(obj, protocol=2)
     loaded = pickle.loads(mydump)
     assert obj == loaded
+
 
 def test_same_class_instantiation_and_unary_plus():
     assert ModP(ModP(123, 2 ** 31 - 19)) == + ModP(123, 2 ** 31 - 19)
@@ -35,6 +36,7 @@ def test_instantiation_with_complex_requires_field_extension():
     p = 2 ** 31 - 1
     with pytest.raises(ValueError):
         ModP(2 + 3j, p)
+
 
 def test_nonsense_instantiation():
     with pytest.raises(TypeError):
@@ -58,7 +60,7 @@ def test_failed_operation_different_FFs():
 
 def test_addition_with_fraction_is_symmetric():
     a = ModP('2 % 5')
-    b = Fraction(1, 3)
+    b = Q(1, 3)
     assert a + b == b + a
     assert isinstance(a + b, ModP) and isinstance(b + a, ModP)
 
@@ -81,7 +83,7 @@ def test_multiplication():
 def test_division():
     p = 10007
     a, b = random.randrange(1, p - 1), random.randrange(1, p - 1)
-    assert ModP(a, p) / b == ModP(Fraction(a, b), p)
+    assert ModP(a, p) / b == ModP(Q(a, b), p)
 
 
 def test_negation():
@@ -96,8 +98,18 @@ def test_inverse():
     assert a * a._inv() == 1
 
 
+def test_str_eq_repr():
+    p = 2 ** 31 - 19
+    a = ModP(random.randrange(1, p), p)
+    assert str(a) == repr(a)
+
 def test_rstr():
     assert ModP('2 mod 4') == ModP('2 % 4')
+
+
+def test_rstr_invalid():
+    with pytest.raises(Exception):
+        ModP('2 : 4')
 
 
 def test_failed_inverse():
@@ -109,6 +121,11 @@ def test_pow():
     p = 10007
     x = random.randrange(1, p)
     assert ModP(x, p) ** -13 == 1 / ModP(x ** 13, p)
+
+
+def test_trivial_abs():
+    assert abs(ModP(1, 10007)) == abs(ModP(2, 10007))
+    assert abs(ModP(-1, 10007)) > abs(ModP(0, 10007))
 
 
 def test_hash():
@@ -123,22 +140,29 @@ def test_extended_euclideal_algorithm():
 
 
 def test_reconstruction_MQRR_2147483647():
-    assert rationalise(298260199, 2147483647, algorithm=MQRR) == Fraction(-51071, 36)
+    assert rationalise(298260199, 2147483647, algorithm=MQRR) == Q(-51071, 36)
 
 
 def test_reconstruction_LGRR_2147483647():
-    assert rationalise(298260199, 2147483647, algorithm=LGRR) == Fraction(11326, 42041)
+    assert rationalise(298260199, 2147483647, algorithm=LGRR) == Q(11326, 42041)
 
 
-def test_reconstruction_LGRR_2147483647_pow12():
-    assert rationalise(4479489461410435237106627746985045825552416200368757674235908629372482248377113245126581341636163272702,
-                       9619630365287747226839050681966839463919428531629782475127367001763589500187642982976435876178980851951693987841, algorithm=MQRR) == -1
-    assert rationalise(4479489461410435237106627746985045825552416200368757674235908629372482248377113245126581341636163272702,
-                       9619630365287747226839050681966839463919428531629782475127367001763589500187642982976435876178980851951693987841, algorithm=LGRR) == -1
+def test_trivial_rationalisation():
+    assert rationalise(1234) == 1234
+
+
+def test_rationalisation_large_power():
+    assert rationalise(ModP(Q(7, 13), 2147483647 ** 12), algorithm=LGRR) == Q(7, 13)
+    assert rationalise(ModP(Q(7, 13), 2147483647 ** 12), algorithm=MQRR) == Q(7, 13)
+
+
+def test_chained_chinese_remainder():
+    assert rationalise(chained_chinese_remainder(ModP(Q(-7, 3), 2 ** 31 - 1), ModP(Q(-7, 3), 2 ** 31 - 19))) == Q(-7, 3)
 
 
 def test_sqrt_in_field_extension():
     assert isinstance(finite_field_sqrt(ModP(-1, 2 ** 31 - 1)), FieldExtension)
+
 
 def test_sqrt_in_fintie_field():
     assert not isinstance(finite_field_sqrt(ModP(-1, 2 ** 31 - 19)), FieldExtension)
