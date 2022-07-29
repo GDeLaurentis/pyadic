@@ -63,10 +63,11 @@ class ModP(object):
             self.n = self_.n
             self.p = self_.p
         elif p is not None and hasattr(n, "imag"):
-            a = ModP(n.real, p)
-            b = ModP(n.imag, p)
-            i = finite_field_sqrt(ModP(-1, p))
-            res = a + i * b
+            res = ModP(n.real, p)
+            if n.imag != 0:
+                b = ModP(n.imag, p)
+                i = finite_field_sqrt(ModP(-1, p))
+                res += i * b
             if isinstance(res, FieldExtension):
                 raise ValueError("Complex to ModP conversion requires √-1 in field or zero imaginary part.")
             self.n = res.n
@@ -299,6 +300,7 @@ def chained_chinese_remainder(*vals, primes=None):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
+@functools.lru_cache
 def finite_field_sqrt(x):
     """Returns either False or the first digit of the root in the field."""
     assert isinstance(x, ModP)

@@ -128,10 +128,11 @@ class PAdic(object):
             self.n = res.n
             self.num = res.num
         elif hasattr(num, "imag"):
-            a = PAdic(num.real, p, k, n, from_addition)
-            b = PAdic(num.imag, p, k, n, from_addition)
-            i = padic_sqrt(PAdic(-1, p, k, n, from_addition))
-            res = a + i * b
+            res = PAdic(num.real, p, k, n, from_addition)
+            if num.imag != 0:
+                b = PAdic(num.imag, p, k, n, from_addition)
+                i = padic_sqrt(PAdic(-1, p, k, n, from_addition))
+                res += + i * b
             if isinstance(res, FieldExtension):
                 raise ValueError(f"Can't create {p}-adic from {num}. A field extension is required.")
             self.p = res.p
@@ -352,6 +353,7 @@ def refine_sqrt_precision(x, s):
     return s + (x - s ** 2) / (2 * s)
 
 
+@functools.lru_cache
 def padic_sqrt(x):
     """Working precision padic sqrt."""
     assert isinstance(x, PAdic)
