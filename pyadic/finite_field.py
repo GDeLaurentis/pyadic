@@ -28,7 +28,7 @@ def ModPfy(func):
             return func(self, other)
         elif isinstance(other, FieldExtension):
             # let FieldExtension deal with it
-           return NotImplemented
+            return NotImplemented
         else:
             # let __init__ deal with it
             return func(self, ModP(other, self.p))
@@ -40,10 +40,9 @@ def ModPfy(func):
 
 
 def isinteger(x):
-    return (isinstance(x, int)
-            or type(x) in [numpy.int32, numpy.int64, sympy.Integer, sympy.core.numbers.Zero]
-            or (hasattr(x, "is_integer") and x.is_integer() is True)
-    )
+    return (isinstance(x, int) or
+            type(x) in [numpy.int32, numpy.int64, sympy.Integer, sympy.core.numbers.Zero] or
+            (hasattr(x, "is_integer") and x.is_integer() is True))
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -67,7 +66,7 @@ class ModP(object):
             a = ModP(n.real, p)
             b = ModP(n.imag, p)
             i = finite_field_sqrt(ModP(-1, p))
-            res = a + i * b            
+            res = a + i * b
             if isinstance(res, FieldExtension):
                 raise ValueError("Complex to ModP conversion requires √-1 in field or zero imaginary part.")
             self.n = res.n

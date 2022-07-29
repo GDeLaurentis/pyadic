@@ -1,7 +1,6 @@
 import math
 import re
 import functools
-import numpy
 import random
 import fractions
 
@@ -99,7 +98,6 @@ class PAdic(object):
     #             return a + i * b  # this is in a FieldExtension now
     #         else:
     #             raise Exception("Invalid p-adic initialisation")
-
 
     def __init__(self, num, p=None, k=None, n=0, from_addition=False):
         """0 ≤ num ≤ p ^ k - 1; p: prime; k: significant digits; n: power of prefactors of p (valuation)."""
