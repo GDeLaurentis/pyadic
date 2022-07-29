@@ -9,5 +9,5 @@ setup(
     description='p-Adic numbers and finite fields in Python',
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[numpy, sympy],
+    install_requires=['numpy', 'sympy'],
 )
