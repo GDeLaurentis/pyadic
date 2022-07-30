@@ -53,18 +53,10 @@ def padicfy(func):
             if self.p != other.p:
                 raise ValueError(f"Can't cast a {other.p}-adic to a {self.p}-adic.")
             return func(self, other)
-        elif isinstance(other, FieldExtension):
-            # let FieldExtension deal with it
-            return NotImplemented
-        else:  # let __init__ deal with it
+        elif isinteger(other) or isinstance(other, ModP) or isinstance(other, fractions.Fraction) or hasattr(other, "imag"):
             return func(self, PAdic(other, self.p, max((self.n + self.k, self.k))))
-        # elif type(other) in [int, ModP, numpy.int64] or str(type(other)) == "long":
-        #     return func(self, PAdic(other, self.p, max((self.n + self.k, self.k))))
-        # elif type(other) is fractions.Fraction:
-        #     return func(self, PAdic(other.numerator, self.p, max((self.n + self.k, self.k))) /
-        #                 PAdic(other.denominator, self.p, max((self.n + self.k, self.k))))
-        # else:
-        #     return NotImplemented
+        else:
+            return NotImplemented
     return wrapper_padicfy
 
 
@@ -125,8 +117,6 @@ class PAdic(object):
         elif isinstance(num, fractions.Fraction):
             res = PAdic(num.numerator, p, k, n, from_addition) / PAdic(num.denominator, p, k, n, from_addition)
             self.num, self.p, self.k, self.n = res.num, res.p, res.k, res.n
-        elif isinstance(num, str):
-            self.num, self.p, self.k, self.n = self.__rstr__(num)
         elif hasattr(num, "imag"):
             res = PAdic(num.real, p, k, n, from_addition)
             if num.imag != 0:
@@ -139,6 +129,8 @@ class PAdic(object):
             self.k = res.k
             self.n = res.n
             self.num = res.num
+        elif isinstance(num, str):
+            self.num, self.p, self.k, self.n = self.__rstr__(num)
         else:
             raise Exception(f"Invalid p-adic initialisation: {num}, {p}, {k}, {n}, {from_addition}.")
 

@@ -15,27 +15,22 @@ from .field_extension import FieldExtension
 def ModPfy(func):
     @functools.wraps(func)
     def wrapper_ModPfy(self, other):
+        from .padic import PAdic
         if isinstance(other, ModP):
             if self.p != other.p:
                 raise ValueError(f"Can't cast numbers between different finite fields: FF{self.p} and FF{other.p}")
             return func(self, other)
-        elif isinstance(other, FieldExtension):
-            # let FieldExtension deal with it
-            return NotImplemented
-        else:
-            # let __init__ deal with it
+        elif isinteger(other) or isinstance(other, fractions.Fraction) or hasattr(other, "imag") or isinstance(other, PAdic):
             return func(self, ModP(other, self.p))
-        # elif isinteger(other) or str(type(other)) == "long" or isinstance(other, fractions.Fraction):
-        #     return func(self, ModP(other, self.p))
-        # else:
-        #     return NotImplemented
+        else:
+            return NotImplemented
     return wrapper_ModPfy
 
 
 def isinteger(x):
     return (isinstance(x, int) or
             type(x) in [numpy.int32, numpy.int64, sympy.Integer, sympy.core.numbers.Zero] or
-            (hasattr(x, "is_integer") and x.is_integer() is True))
+            (hasattr(x, "is_integer") and callable(x.is_integer) and x.is_integer()))
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -59,7 +54,7 @@ class ModP(object):
             res = ModP(n.real, p)
             if n.imag != 0:
                 b = ModP(n.imag, p)
-                i = finite_field_sqrt(ModP(-1, p))
+                i = finite_field_sqrt(ModP(-1, p))  # this fails if p is a prime power
                 res += i * b
             if isinstance(res, FieldExtension):
                 raise ValueError("Complex to ModP conversion requires √-1 in field or zero imaginary part.")

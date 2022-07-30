@@ -1,6 +1,7 @@
 import pickle
 import random
 import pytest
+import sympy
 
 from fractions import Fraction as Q
 
@@ -121,6 +122,11 @@ def test_pow():
     p = 10007
     x = random.randrange(1, p)
     assert ModP(x, p) ** -13 == 1 / ModP(x ** 13, p)
+
+
+def test_operation_not_understood_by_ModP():
+    x = sympy.symbols("x")
+    assert ModP("2 % 3") * x == x * ModP("2 % 3")
 
 
 def test_trivial_abs():
