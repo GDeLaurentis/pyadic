@@ -105,7 +105,7 @@ class FieldExtension(object):
         return FieldExtension(self.square, (self.tuple[0], -self.tuple[1])) / (self.tuple[0] ** 2 - self.square * self.tuple[1] ** 2)
 
     def __pow__(self, n):
-        assert(isinstance(n, int) or n.is_integer())
+        assert (isinstance(n, int) or n.is_integer())
         if n < 0:
             return 1 / self ** -n
         elif n == 0:

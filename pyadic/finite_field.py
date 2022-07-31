@@ -146,7 +146,7 @@ class ModP(object):
         return other * self._inv()
 
     def __pow__(self, n):
-        assert(isinstance(n, int) or n.is_integer())
+        assert (isinstance(n, int) or n.is_integer())
         if n < 0:
             return 1 / self ** -n
         elif n == 0:
