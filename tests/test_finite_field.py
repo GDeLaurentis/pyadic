@@ -81,6 +81,7 @@ def test_multiplication():
     assert (a * b) % p == a * ModP(b, p)
     assert (a * b) % p == ModP(a, p) * b
 
+
 def test_division():
     p = 10007
     a, b = random.randrange(1, p - 1), random.randrange(1, p - 1)
@@ -104,6 +105,7 @@ def test_str_eq_repr():
     a = ModP(random.randrange(1, p), p)
     assert str(a) == repr(a)
 
+
 def test_rstr():
     assert ModP('2 mod 4') == ModP('2 % 4')
 
@@ -117,6 +119,7 @@ def test_failed_inverse():
     a = ModP('2 % 4')
     with pytest.raises(ZeroDivisionError):
         a * a._inv()
+
 
 def test_pow():
     p = 10007

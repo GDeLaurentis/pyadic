@@ -107,7 +107,7 @@ def test_fixed_relative_precision_is_more_stable_but_not_O_guaranteed():
     p = 2 ** 31 - 1
     x = PAdic(1, p, 3)
     y = PAdic(1 - p, p, 3)
-    pyadic.padic.fixed_relative_precision = False 
+    pyadic.padic.fixed_relative_precision = False
     assert (1 / (x - y) - 1 / (x - y)).n == 1                   # fewer digits in result
     assert str(1 / (x - y) - 1 / (x - y)) == "O(2147483647)"    # but precision of result is correctly tracked to O(p)
     pyadic.padic.fixed_relative_precision = True
@@ -124,4 +124,4 @@ def test_padic_log():
     w = PAdic(2, p, 5, -3)
     padic_log(w)  # branch info?
     w = PAdic(2, p, 5, +3)
-    padic_log(w)  # branch info? 
+    padic_log(w)  # branch info?

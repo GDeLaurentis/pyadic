@@ -328,7 +328,7 @@ class PAdic(object):
 
 def padic_log(w, base=None):
     """
-    If the valuation is 0, then bring in radius of convergence using Fermat’s little theorem (w ** (p - 1) = 1 mod p), 
+    If the valuation is 0, then bring in radius of convergence using Fermat’s little theorem (w ** (p - 1) = 1 mod p),
     i.e. log_p(w) = log_p(w^(p - 1)) / (p - 1), with w^(p - 1) = 1 + x, x ~ O(p).
     Otherwise, factor out p ^ valuation, use that log(a * b) = log(a) + log(b) and that log_p(p ^ valuation) = valuation
     What about branch? See sage docs.
