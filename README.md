@@ -19,3 +19,12 @@ pip install -e path/to/repo
 ```
 pytest --cov pyadic/ --cov-report html tests/ --verbose
 ```
+
+## Quick Start
+
+```
+from pyadic import PAdic
+from fractions import Fraction as Q
+# 7/13 as a 12-digit 2147483647-adic number
+PAdic(Q(7, 13), 2147483647, 12)
+```
