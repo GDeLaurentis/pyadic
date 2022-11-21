@@ -125,3 +125,7 @@ def test_padic_log():
     padic_log(w)  # branch info?
     w = PAdic(2, p, 5, +3)
     padic_log(w)  # branch info?
+
+
+def test_trivial_padic_log():
+    assert padic_log(1) == 0

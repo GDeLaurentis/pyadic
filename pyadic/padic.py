@@ -333,6 +333,8 @@ def padic_log(w, base=None):
     Otherwise, factor out p ^ valuation, use that log(a * b) = log(a) + log(b) and that log_p(p ^ valuation) = valuation
     What about branch? See sage docs.
     """
+    if w == 1:    # for compatibility with integers / exact (infinite-precision) p-adic
+        return 0
     if base is None:
         return padic_log(w, w.p)
     if base is w.p:
