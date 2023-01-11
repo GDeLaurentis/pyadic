@@ -1,5 +1,6 @@
 import pickle
 import random
+import numpy
 
 from fractions import Fraction as Q
 
@@ -69,6 +70,13 @@ def test_multiplication_by_one():
     p, k, n = 10007, 3, -2
     a = PAdic(random.randrange(0, 10000), p, k, n)
     assert a * 1 == a
+
+
+def test_multiplication_with_array():
+    p, k, n = 10007, 3, 2
+    a = PAdic(random.randrange(0, 10000), p, k, n)
+    array = [0, 1, 2, 3]
+    assert numpy.all(a * numpy.array(array) == numpy.array([a * entry for entry in array]))
 
 
 def test_unary_neg():

@@ -3,6 +3,7 @@ import re
 import functools
 import random
 import fractions
+import numpy
 
 from .finite_field import ModP, finite_field_sqrt, isinteger
 from .field_extension import FieldExtension
@@ -53,7 +54,7 @@ def padicfy(func):
             if self.p != other.p:
                 raise ValueError(f"Can't cast a {other.p}-adic to a {self.p}-adic.")
             return func(self, other)
-        elif isinteger(other) or isinstance(other, ModP) or isinstance(other, fractions.Fraction) or hasattr(other, "imag"):
+        elif isinteger(other) or isinstance(other, ModP) or isinstance(other, fractions.Fraction) or (hasattr(other, "imag") and not isinstance(other, numpy.ndarray)):
             return func(self, PAdic(other, self.p, max((self.n + self.k, self.k))))
         else:
             return NotImplemented

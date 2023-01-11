@@ -20,7 +20,7 @@ def ModPfy(func):
             if self.p != other.p:
                 raise ValueError(f"Can't cast numbers between different finite fields: FF{self.p} and FF{other.p}")
             return func(self, other)
-        elif isinteger(other) or isinstance(other, fractions.Fraction) or hasattr(other, "imag") or isinstance(other, PAdic):
+        elif isinteger(other) or isinstance(other, fractions.Fraction) or (hasattr(other, "imag") and not isinstance(other, numpy.ndarray)) or isinstance(other, PAdic):
             return func(self, ModP(other, self.p))
         else:
             return NotImplemented

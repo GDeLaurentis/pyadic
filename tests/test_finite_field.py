@@ -2,6 +2,7 @@ import pickle
 import random
 import pytest
 import sympy
+import numpy
 
 from fractions import Fraction as Q
 
@@ -82,6 +83,13 @@ def test_multiplication():
     assert (a * b) % p == ModP(a, p) * b
 
 
+def test_multiplication_with_array():
+    p = 10007
+    a = random.randrange(0, 10000)
+    array = [0, 1, 2, 3]
+    assert numpy.all(ModP(a, p) * numpy.array(array) == numpy.array([ModP(a, p) * entry for entry in array]))
+
+
 def test_division():
     p = 10007
     a, b = random.randrange(1, p - 1), random.randrange(1, p - 1)
@@ -145,7 +153,7 @@ def test_extended_euclideal_algorithm():
     for i in range(10):
         a, b = random.randint(1, 1000), random.randint(1, 1000)
         s, t, gcd = extended_euclideal_algorithm(a, b)
-        assert(a * s + b * t == gcd)
+        assert a * s + b * t == gcd
 
 
 def test_reconstruction_MQRR_2147483647():
