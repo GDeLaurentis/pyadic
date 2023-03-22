@@ -1,13 +1,13 @@
-import functools
-import numpy
+import copy
 import fractions
+import functools
 import math
+
+import numpy
 import sympy
 
-from copy import deepcopy
-
+from . import padic
 from .field_extension import FieldExtension
-
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
@@ -15,12 +15,11 @@ from .field_extension import FieldExtension
 def ModPfy(func):
     @functools.wraps(func)
     def wrapper_ModPfy(self, other):
-        from .padic import PAdic
         if isinstance(other, ModP):
             if self.p != other.p:
                 raise ValueError(f"Can't cast numbers between different finite fields: FF{self.p} and FF{other.p}")
             return func(self, other)
-        elif isinteger(other) or isinstance(other, fractions.Fraction) or (hasattr(other, "imag") and not isinstance(other, numpy.ndarray)) or isinstance(other, PAdic):
+        elif isinteger(other) or isinstance(other, fractions.Fraction) or (hasattr(other, "imag") and not isinstance(other, numpy.ndarray)) or isinstance(other, padic.PAdic):
             return func(self, ModP(other, self.p))
         else:
             return NotImplemented
@@ -42,7 +41,6 @@ class ModP(object):
     __slots__ = 'n', 'p'
 
     def __init__(self, n, p=None):
-        from .padic import PAdic
         if p is not None and isinteger(n) and isinteger(p):
             self.n = int(n) % int(p)
             self.p = int(p)
@@ -63,7 +61,7 @@ class ModP(object):
         elif p is None and isinstance(n, ModP):
             self.n = n.n
             self.p = n.p
-        elif p is None and isinstance(n, PAdic):
+        elif p is None and isinstance(n, padic.PAdic):
             self.n = int(n)
             self.p = n.p ** n.k
         elif p is None and isinstance(n, str):
@@ -252,13 +250,12 @@ def LGRR(a, n):
 
 def rationalise(a, n=None, algorithm=(LGRR, MQRR)[1]):
     """Given (a, n) returns a fraction r / s such that r/s % n = a, by lattice reduction. r = sa + mn  <-> r/s % n = a"""
-    from .padic import PAdic
     if n is None:  # for FF argument
         if isinstance(a, int):
             return fractions.Fraction(a, 1)
         elif isinstance(a, ModP):
             return rationalise(int(a), a.p, algorithm)
-        elif isinstance(a, PAdic):
+        elif isinstance(a, padic.PAdic):
             return rationalise(int(a), a.p ** a.k, algorithm)
     return algorithm(a, n)
 
@@ -335,10 +332,10 @@ def univariate_finite_field_solver(equation, root_dict, prime):
 def update_root_dict(symbol, solutions, root_dict):
     # !!! DO NOT MODIFY HERE !!! this function is from lips.algebraic_geometry.tools
     """Given solutions and root_dict returns updated root_dicts."""
-    root_dicts = [deepcopy(root_dict)]
+    root_dicts = [copy.deepcopy(root_dict)]
     root_dicts[0].update({symbol: solutions[0]})
     for solution in solutions[1:]:
-        new_root_dict = deepcopy(root_dict)
+        new_root_dict = copy.deepcopy(root_dict)
         new_root_dict.update({symbol: solution})
         root_dicts.append(new_root_dict)
     return root_dicts
