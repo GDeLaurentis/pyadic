@@ -9,6 +9,7 @@ import sympy
 from . import padic
 from .field_extension import FieldExtension
 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
@@ -172,6 +173,14 @@ class ModP(object):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
+def vec_ModP(prime):
+    """Numpy vectorized version of ModP."""
+    return numpy.vectorize(functools.partial(ModP, p=prime), otypes="O")
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
 def extended_euclideal_algorithm(a, b):
     """Returns Bezout coefficients (s,t) and gcd(a,b) such that: as+bt=gcd(a,b). - Pseudocode from https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm"""
     (old_r, r) = (a, b)
@@ -283,6 +292,21 @@ def chained_chinese_remainder(*vals, primes=None):
     for val in vals[2:]:
         res = chinese_remainder(res, val)
     return res
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
+def vec_chained_FF_rationalize(tensors, primes, factor=1, algorithm=LGRR):
+    """Given list of tensors respectively mod primes, returns the rationalized tensor.
+       Keyword argument factor is pre-multiplied and then devided w.r.t. reconstruction,
+       can be used to aid reconstruction or verify its stability."""
+    assert len(tensors) == len(primes)
+    vec_chained_chinese_remainder = numpy.vectorize(functools.partial(chained_chinese_remainder, primes=primes))
+    chained_tensors = vec_chained_chinese_remainder(*tensors)
+    vec_rationalize = numpy.vectorize(functools.partial(rationalise, algorithm=algorithm), otypes="O")
+    Qtensor = vec_rationalize(factor * chained_tensors) / fractions.Fraction(factor)
+    return Qtensor
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #

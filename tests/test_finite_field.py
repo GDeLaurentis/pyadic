@@ -7,8 +7,10 @@ import numpy
 from fractions import Fraction as Q
 
 from pyadic import ModP, PAdic
-from pyadic.finite_field import extended_euclideal_algorithm, rationalise, MQRR, LGRR, finite_field_sqrt, chained_chinese_remainder
+from pyadic.finite_field import vec_ModP, extended_euclideal_algorithm, rationalise, MQRR, LGRR, \
+    finite_field_sqrt, chained_chinese_remainder, vec_chained_FF_rationalize
 from pyadic.field_extension import FieldExtension
+from pyadic.primes import primes
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -183,3 +185,10 @@ def test_sqrt_in_field_extension():
 
 def test_sqrt_in_fintie_field():
     assert not isinstance(finite_field_sqrt(ModP(-1, 2 ** 31 - 19)), FieldExtension)
+
+
+def test_vec_chained_FF_rationalize():
+    Qmatrix = numpy.array([[Q(16, 9973), Q(10007)], [Q(99991, 4), Q(100003)]])
+    used_primes = primes[:4]
+    FF_matrices = [vec_ModP(prime)(Qmatrix).astype(int) for prime in used_primes]
+    assert numpy.all(vec_chained_FF_rationalize(FF_matrices, used_primes) == Qmatrix)
