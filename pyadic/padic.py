@@ -100,7 +100,7 @@ class PAdic(object):
         if isinteger(num) or isinstance(num, ModP):
             num = int(num)  # might get passed as FF number
             self.p = p
-            factors_of_p = next((i for i, j in enumerate(to_base(num, p)) if j != 0), None)
+            factors_of_p = next((i for i, j in enumerate(to_base(abs(num), p)) if j != 0), None)
             if factors_of_p is None:  # leading zeros are not significant digits under any situation
                 factors_of_p = k
                 from_addition = True

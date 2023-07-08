@@ -29,6 +29,10 @@ def test_instantiation_from_string():
     assert PAdic("3 + O(7)") == PAdic(3, 7, 1)
 
 
+def test_instantiation_when_negative_and_proportional_to_prime():
+    assert -PAdic(7, 7, 4) == PAdic(-7, 7, 4) == PAdic(Q(-7, 1), 7, 4)
+
+
 def test_str_non_zero():
     p, k = 10007, 3
     assert str(PAdic(1 + 2 * p + 3 * p ** 2, p, k)) == "1 + 2*{p} + 3*{p}^2 + O({p}^{k})".format(p=p, k=k)
