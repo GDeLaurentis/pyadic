@@ -302,7 +302,7 @@ def vec_chained_FF_rationalize(tensors, primes, factor=1, algorithm=LGRR):
        Keyword argument factor is pre-multiplied and then devided w.r.t. reconstruction,
        can be used to aid reconstruction or verify its stability."""
     assert len(tensors) == len(primes)
-    vec_chained_chinese_remainder = numpy.vectorize(functools.partial(chained_chinese_remainder, primes=primes))
+    vec_chained_chinese_remainder = numpy.vectorize(functools.partial(chained_chinese_remainder, primes=primes), otypes=[object])
     chained_tensors = vec_chained_chinese_remainder(*tensors)
     vec_rationalize = numpy.vectorize(functools.partial(rationalise, algorithm=algorithm), otypes="O")
     Qtensor = vec_rationalize(factor * chained_tensors) / fractions.Fraction(factor)
