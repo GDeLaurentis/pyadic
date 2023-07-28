@@ -62,3 +62,22 @@ Out [6]: Fraction(7, 13)
 In [7]: rationalise(PAdic(Q(7, 13), 2147483647, 12))
 Out [7]: Fraction(7, 13)
 ```
+
+## Citation
+
+If you found this library useful, please consider citing it
+
+
+```bibtex
+@inproceedings{DeLaurentis:2023qhd,
+    author = "De Laurentis, Giuseppe",
+    title = "{Lips: $p$-adic and singular phase space}",
+    booktitle = "{21th International Workshop on Advanced Computing and Analysis Techniques in Physics Research}: {AI meets Reality}",
+    eprint = "2305.14075",
+    archivePrefix = "arXiv",
+    primaryClass = "hep-th",
+    reportNumber = "PSI-PR-23-14",
+    month = "5",
+    year = "2023"
+}
+```
