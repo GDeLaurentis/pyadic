@@ -29,7 +29,7 @@ def ModPfy(func):
 
 def isinteger(x):
     return (isinstance(x, int) or
-            type(x) in [numpy.int32, numpy.int64, sympy.Integer, sympy.core.numbers.Zero] or
+            type(x) in [numpy.int32, numpy.int64, numpy.uint32, numpy.uint64, sympy.Integer, sympy.core.numbers.Zero] or
             (hasattr(x, "is_integer") and callable(x.is_integer) and x.is_integer()))
 
 
