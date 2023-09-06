@@ -1,9 +1,10 @@
-import math
-import re
-import functools
-import random
 import fractions
+import functools
+import math
+import numbers
 import numpy
+import random
+import re
 
 from .finite_field import ModP, finite_field_sqrt, isinteger
 from .field_extension import FieldExtension
@@ -145,7 +146,7 @@ class PAdic(object):
     @num.setter
     def num(self, value):
         if value < 0:
-            raise Exception("Padic num should be non-negative")
+            raise ValueError("Padic num should be non-negative")
         self._num = value
 
     @property
@@ -156,7 +157,7 @@ class PAdic(object):
     @p.setter
     def p(self, value):
         if value <= 0:
-            raise Exception("Padic p should be positive, got: {}.".format(value))
+            raise ValueError("Padic p should be positive, got: {}.".format(value))
         self._p = value
 
     @property
@@ -323,6 +324,8 @@ class PAdic(object):
     def __hash__(self):
         return hash(self.num) + hash(self.p) + hash(self.k) + hash(self.n)
 
+
+numbers.Number.register(PAdic)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 

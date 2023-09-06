@@ -47,6 +47,10 @@ def test_nonsense_instantiation():
         ModP((), [])
 
 
+def test_isscalar():
+    assert numpy.isscalar(ModP(3, 7))
+
+
 def test_addition():
     p = 10007
     a, b = random.randrange(0, 10000), random.randrange(0, 10000)

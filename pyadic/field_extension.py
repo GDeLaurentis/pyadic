@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import fractions
+import numbers
 import numpy
 
 
@@ -115,3 +116,6 @@ class FieldExtension(object):
             return root_2_res * root_2_res
         else:
             return self * (self ** (n - 1))
+
+
+numbers.Number.register(FieldExtension)

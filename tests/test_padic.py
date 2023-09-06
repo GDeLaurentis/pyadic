@@ -5,6 +5,7 @@ import numpy
 from fractions import Fraction as Q
 
 import pyadic
+import pytest
 
 from pyadic import PAdic
 from pyadic.padic import padic_sqrt, padic_log
@@ -21,7 +22,7 @@ def test_picklable():
     assert obj == loaded
 
 
-def test_instantiation_from_complex_when_in_fied():
+def test_instantiation_from_complex_when_in_field():
     assert PAdic(1j, 2 ** 31 - 19, 5)
 
 
@@ -33,9 +34,18 @@ def test_instantiation_when_negative_and_proportional_to_prime():
     assert -PAdic(7, 7, 4) == PAdic(-7, 7, 4) == PAdic(Q(-7, 1), 7, 4)
 
 
+def test_invalid_instantiation():
+    with pytest.raises(ValueError):
+        PAdic(3, -7, 2)
+
+
 def test_str_non_zero():
     p, k = 10007, 3
     assert str(PAdic(1 + 2 * p + 3 * p ** 2, p, k)) == "1 + 2*{p} + 3*{p}^2 + O({p}^{k})".format(p=p, k=k)
+
+
+def test_isscalar():
+    assert numpy.isscalar(PAdic(3, 7, 1))
 
 
 def test_addition():
@@ -44,6 +54,13 @@ def test_addition():
     assert PAdic(a + b, p, k) == PAdic(a, p, k) + PAdic(b, p, k)
     assert PAdic(a + b, p, k) == a + PAdic(b, p, k)
     assert PAdic(a + b, p, k) == PAdic(a, p, k) + b
+
+
+def test_failed_operation_different_primes():
+    a = PAdic("1 + 2*7 + O(7^2)")
+    b = PAdic("1 + 2*13 + O(13^2)")
+    with pytest.raises(ValueError):
+        a + b
 
 
 def test_addition_with_zero():

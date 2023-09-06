@@ -1,3 +1,4 @@
+import numpy
 import pickle
 
 from fractions import Fraction as Q
@@ -16,6 +17,12 @@ def test_picklable():
     mydump = pickle.dumps(sqrt, protocol=2)
     loaded = pickle.loads(mydump)
     assert sqrt == loaded
+
+
+def test_isscalar():
+    square = PAdic(8926681701808096183360073083313707792198548824, 2 ** 31 - 1, 5)
+    sqrt = padic_sqrt(square)
+    assert numpy.isscalar(sqrt)
 
 
 def test_inverse1():

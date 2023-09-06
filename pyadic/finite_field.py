@@ -2,6 +2,7 @@ import copy
 import fractions
 import functools
 import math
+import numbers
 
 import numpy
 import sympy
@@ -37,7 +38,7 @@ def isinteger(x):
 
 
 class ModP(object):
-    """Finite field with p elements ($\\mathbb{FF}_p$), i.e. integers modulus p, with p prime."""
+    """Finite field with p elements ($\\mathbb{FF}_p$), i.e. integers modulo p, with p prime."""
 
     __slots__ = 'n', 'p'
 
@@ -170,11 +171,13 @@ class ModP(object):
         return hash(self.n) + hash(self.p)
 
 
+numbers.Number.register(ModP)
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
 def vec_ModP(prime):
-    """Numpy vectorized version of ModP."""
+    """Vectorized version of ModP."""
     return numpy.vectorize(functools.partial(ModP, p=prime), otypes="O")
 
 
