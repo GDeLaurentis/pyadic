@@ -285,6 +285,7 @@ def chinese_remainder(a1, a2):
 
 
 def chained_chinese_remainder(*vals, primes=None):
+    """Vectorized (concatenated) version of chinese remainder function."""
     if not (all([isinstance(val, ModP) for val in vals]) or len(vals) == len(primes)):
         raise Exception("Unrecognized input.")
     if primes is not None:
