@@ -311,7 +311,7 @@ def vec_chained_FF_rationalize(tensors, primes, factor=1, algorithm=LGRR, optimi
         raise AssertionError("All tensors must have the same shape for rationalisation.")
     if optimize_for_sparse_arrays:  # optimization for sparse arrays: run the algorithm only on non-zero values.
         tensors_non_zero_mask = numpy.all(numpy.array([tensor != 0 for tensor in tensors]), axis=0)
-        values_to_insert = vec_chained_FF_rationalize([tensor[tensors_non_zero_mask] for tensor in tensors], primes, 
+        values_to_insert = vec_chained_FF_rationalize([tensor[tensors_non_zero_mask] for tensor in tensors], primes,
                                                       factor=factor, algorithm=algorithm, optimize_for_sparse_arrays=False)
         Qtensor = numpy.zeros_like(tensors[0], dtype='O')
         Qtensor[tensors_non_zero_mask] = values_to_insert
