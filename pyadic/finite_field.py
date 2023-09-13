@@ -301,15 +301,25 @@ def chained_chinese_remainder(*vals, primes=None):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-def vec_chained_FF_rationalize(tensors, primes, factor=1, algorithm=LGRR):
+def vec_chained_FF_rationalize(tensors, primes, factor=1, algorithm=LGRR, optimize_for_sparse_arrays=True):
     """Given list of tensors respectively mod primes, returns the rationalized tensor.
        Keyword argument factor is pre-multiplied and then devided w.r.t. reconstruction,
        can be used to aid reconstruction or verify its stability."""
-    assert len(tensors) == len(primes)
-    vec_chained_chinese_remainder = numpy.vectorize(functools.partial(chained_chinese_remainder, primes=primes), otypes=[object])
-    chained_tensors = vec_chained_chinese_remainder(*tensors)
-    vec_rationalize = numpy.vectorize(functools.partial(rationalise, algorithm=algorithm), otypes="O")
-    Qtensor = vec_rationalize(factor * chained_tensors) / fractions.Fraction(factor)
+    if len(tensors) != len(primes):
+        raise AssertionError("As many tensors as primes must be supplied for rationalisation.")
+    if not len(set([tensor.shape for tensor in tensors])) == 1:
+        raise AssertionError("All tensors must have the same shape for rationalisation.")
+    if optimize_for_sparse_arrays:  # optimization for sparse arrays: run the algorithm only on non-zero values.
+        tensors_non_zero_mask = numpy.all(numpy.array([tensor != 0 for tensor in tensors]), axis=0)
+        values_to_insert = vec_chained_FF_rationalize([tensor[tensors_non_zero_mask] for tensor in tensors], primes, 
+                                                      factor=factor, algorithm=algorithm, optimize_for_sparse_arrays=False)
+        Qtensor = numpy.zeros_like(tensors[0], dtype='O')
+        Qtensor[tensors_non_zero_mask] = values_to_insert
+    else:
+        vec_chained_chinese_remainder = numpy.vectorize(functools.partial(chained_chinese_remainder, primes=primes), otypes=[object])
+        chained_tensors = vec_chained_chinese_remainder(*tensors)
+        vec_rationalize = numpy.vectorize(functools.partial(rationalise, algorithm=algorithm), otypes="O")
+        Qtensor = vec_rationalize(factor * chained_tensors) / fractions.Fraction(factor)
     return Qtensor
 
 

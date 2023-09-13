@@ -192,7 +192,20 @@ def test_sqrt_in_fintie_field():
 
 
 def test_vec_chained_FF_rationalize():
-    Qmatrix = numpy.array([[Q(16, 9973), Q(10007)], [Q(99991, 4), Q(100003)]])
+    Qmatrix = numpy.array([[Q(16, 9973), Q(10007), 0], [Q(99991, 4), Q(100003), 0], [0, 0, 0]])
     used_primes = primes[:4]
     FF_matrices = [vec_ModP(prime)(Qmatrix).astype(int) for prime in used_primes]
     assert numpy.all(vec_chained_FF_rationalize(FF_matrices, used_primes) == Qmatrix)
+    assert numpy.all(vec_chained_FF_rationalize(FF_matrices, used_primes, optimize_for_sparse_arrays=False) == Qmatrix)
+
+
+def test_vec_chained_FF_rationalize_invalid_input():
+    Qmatrix1 = numpy.array([[Q(16, 9973), Q(10007), 0], [Q(99991, 4), Q(100003), 0], [0, 0, 0]])
+    Qmatrix2 = numpy.array([[Q(16, 9973), Q(10007)], [Q(99991, 4), Q(100003)]])
+    used_primes = primes[:2]
+    FF_matrices1 = [vec_ModP(prime)(Qmatrix1).astype(int) for prime in used_primes]
+    FF_matrices2 = [vec_ModP(prime)(Qmatrix2).astype(int) for prime in used_primes]
+    with pytest.raises(AssertionError):
+        vec_chained_FF_rationalize(FF_matrices1, used_primes[:1])
+    with pytest.raises(AssertionError):
+        vec_chained_FF_rationalize([FF_matrices1[0], FF_matrices2[1]], used_primes[:])
