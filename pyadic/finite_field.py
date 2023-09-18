@@ -176,9 +176,18 @@ numbers.Number.register(ModP)
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-def vec_ModP(prime):
+def vec_ModP(prime, optimize_for_sparse_arrays=True):
     """Vectorized version of ModP."""
-    return numpy.vectorize(functools.partial(ModP, p=prime), otypes="O")
+    if optimize_for_sparse_arrays is False:
+        return numpy.vectorize(functools.partial(ModP, p=prime), otypes="O")
+    else:
+        def _vec_ModP_optimized_(tensor):
+            tensor_non_zero_mask = (numpy.array(tensor) != 0)
+            values_to_insert = vec_ModP(prime, optimize_for_sparse_arrays=False)(tensor[tensor_non_zero_mask])
+            ModPtensor = numpy.full(tensor.shape, ModP(0, prime))
+            ModPtensor[tensor_non_zero_mask] = values_to_insert
+            return ModPtensor
+        return _vec_ModP_optimized_
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
