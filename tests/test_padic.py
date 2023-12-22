@@ -1,11 +1,10 @@
 import pickle
 import random
 import numpy
-
-from fractions import Fraction as Q
-
 import pyadic
 import pytest
+
+from fractions import Fraction as Q
 
 from pyadic import PAdic
 from pyadic.padic import padic_sqrt, padic_log
