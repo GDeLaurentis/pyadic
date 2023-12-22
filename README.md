@@ -1,7 +1,7 @@
 # pyAdic
 
 [![Continuous Integration Status](https://github.com/GDeLaurentis/pyadic/actions/workflows/continuous_integration.yml/badge.svg)](https://github.com/GDeLaurentis/pyadic/actions)
-[![Coverage](https://img.shields.io/badge/Coverage-93%25-green?labelColor=2a2f35)](https://github.com/GDeLaurentis/pyadic/actions)
+[![Coverage](https://img.shields.io/badge/Coverage-91%25-green?labelColor=2a2f35)](https://github.com/GDeLaurentis/pyadic/actions)
 [![pypi](https://img.shields.io/pypi/v/pyadic)](https://pypi.org/project/pyadic/)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/pyadic.svg?label=PyPI%20downloads)](https://pypistats.org/packages/pyadic)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GDeLaurentis/pyadic/HEAD)
