@@ -15,7 +15,19 @@ setup(
     author='Giuseppe De Laurentis',
     author_email='g.dl@hotmail.it',
     url='https://github.com/GDeLaurentis/pyadic',
+    download_url='https://github.com/GDeLaurentis/pyadic/archive/v0.2.0.tar.gz',
+    keywords=['p-adic numbers', 'finite-fields', 'rational reconstruction'],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['numpy', 'sympy'],
+    install_requires=[
+        'numpy',
+        'sympy',
+    ],
+    classifiers=[
+        'Development Status :: 4 - Beta',
+        'Intended Audience :: Science/Research',
+        'Topic :: Scientific/Engineering :: Physics',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'Programming Language :: Python :: 3.9',
+    ],
 )
