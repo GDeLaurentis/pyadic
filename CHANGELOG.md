@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Multivariate Newton interpolation algorithm, `multivariate_Newton_polynomial_interpolation`.
+
 ## [0.2.0] - 2024-01-02
 
 ### Added

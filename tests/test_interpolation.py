@@ -1,8 +1,10 @@
 import sympy
 
-from pyadic.interpolation import Newton_polynomial_interpolation, Thiele_rational_interpolation
+from pyadic.interpolation import Newton_polynomial_interpolation, Thiele_rational_interpolation, \
+    multivariate_Newton_polynomial_interpolation
 
 t = sympy.symbols('t')
+t1, t2, t3 = sympy.symbols('t1:4')
 
 
 def Ptest0(tval):
@@ -11,6 +13,10 @@ def Ptest0(tval):
 
 def Ptest1(tval):
     return (tval ** 20 + tval - 1)
+
+
+def Ptest2(t1, t2, t3):
+    return (t1 + 2 * t2) + 3 * (t1 * t2) + t3 ** 5
 
 
 def Rtest0(tval):
@@ -27,6 +33,10 @@ def test_Newton_polynomial_interpolation_trivial():
 
 def test_Newton_polynomial_interpolation():
     assert Newton_polynomial_interpolation(Ptest1, 2 ** 31 - 1, verbose=True) == t ** 20 + t - 1
+
+
+def test_Newton_polynomial_interpolation_multivariate():
+    assert multivariate_Newton_polynomial_interpolation(Ptest2, 2 ** 31 - 1, verbose=True) == (t1 + 2 * t2) + 3 * (t1 * t2) + t3 ** 5
 
 
 def test_Thiele_rational_interpolation_trivial():

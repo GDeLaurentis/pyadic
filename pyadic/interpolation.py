@@ -2,6 +2,7 @@ import functools
 import numpy
 import random
 import sympy
+import inspect
 
 from collections.abc import Iterator
 
@@ -69,6 +70,58 @@ def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0,
     tpoly = FFGF(int(avals[-1]))
     for aval, tval in zip(avals[-2::-1], tvals[-2::-1]):
         tpoly = int(aval) + (FFGF(t) - int(tval)) / tpoly
+    return tpoly.as_expr()
+
+
+def multivariate_Newton_polynomial_interpolation(f, prime, seed=0, depth=0, verbose=False):
+    """Recursive multivariate polynomial interpolation of f(ts), samples taken modulo prime."""
+
+    # End of recursion condition: univariate function
+    function_signature = inspect.signature(f)
+    num_args = len(function_signature.parameters)
+    if num_args == 1:
+        tpoly = Newton_polynomial_interpolation(f, prime, seed=seed, verbose=verbose)
+        tpoly = tpoly.subs({'t': 't1', })
+        return tpoly
+
+    t_sequence_generator = FFSequenceGenerator(prime, seed)
+    avals, tvals, subtracted = [], [], [f]
+
+    dynamic_fsubtracted_string = f"""def fsubtracted(i, {''.join([f't{i}, ' for i in range(1, num_args + 1)])}):
+    return (subtracted[i - 1]({''.join([f't{i}, ' for i in range(1, num_args + 1)])}) - \
+    ModP(int(avals[i - 1]({''.join([f'int(t{i}), ' for i in range(2, num_args + 1)])})), {prime})) / (t1 - tvals[i - 1])
+    """
+    local_dict = {'ModP': ModP, 'subtracted': subtracted, 'avals': avals, 'tvals': tvals}  # Include any necessary objects in the local dictionary
+    exec(dynamic_fsubtracted_string, local_dict)
+    fsubtracted = local_dict['fsubtracted']
+
+    MAX_SAMPLES = 1000  # sets iteration limit
+    for counter in range(MAX_SAMPLES):
+        if avals[-2:] == [0, 0]:
+            break
+        if verbose:
+            if depth != 0:
+                print()
+            print(f"@ depth: {depth} - samples: {len(avals)}, {(avals, tvals)}", end="\n")
+        tvals += [next(t_sequence_generator)]
+        local_dict = {'ModP': ModP, 'subtracted': subtracted}  # Include any necessary objects in the local dictionary
+        function_string = f"""def rest_function({''.join([f't{i}, ' for i in range(2, num_args + 1)])}):
+        return subtracted[-1](ModP('{tvals[-1]}'), {''.join([f't{i}, ' for i in range(2, num_args + 1)])})"""
+        exec(function_string, local_dict)
+        rest_function = local_dict['rest_function']
+        avals += [multivariate_Newton_polynomial_interpolation(rest_function, prime, seed=seed, depth=depth + 1, verbose=verbose)]
+        avals[-1] = avals[-1].subs({f't{i}': f't{i+1}' for i in range(1, num_args)}, simultaneous=True)
+        avals[-1] = sympy.poly(avals[-1], sympy.symbols([f't{i+1}' for i in range(1, num_args)]), modulus=prime)
+        fsubtracted_partial = functools.partial(fsubtracted, len(avals))
+        subtracted += [fsubtracted_partial]
+
+    if verbose:
+        print(f"\nFinished after {len(avals)} samples: {avals}.", end="\n")
+
+    FFGF = sympy.GF(prime).frac_field(*sympy.symbols([f't{i}' for i in range(1, num_args + 1)]))
+    tpoly = FFGF(0)
+    for aval, tval in zip(avals[:-2][::-1], tvals[:-2][::-1]):
+        tpoly = FFGF(aval.as_expr()) + (FFGF(sympy.symbols('t1')) - int(tval)) * tpoly
     return tpoly.as_expr()
 
 
