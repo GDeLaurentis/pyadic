@@ -126,9 +126,16 @@ def test_absolute_value():
     assert abs(PAdic(1, p, 3, 0)) == abs(PAdic(2, p, 3, 0))
 
 
-def test_rationalisation_padic():
+def test_rationalisation_padic_integer():
     assert rationalise(PAdic(Q(7, 13), 2147483647, 12), algorithm=LGRR) == Q(7, 13)
     assert rationalise(PAdic(Q(7, 13), 2147483647, 12), algorithm=MQRR) == Q(7, 13)
+
+
+def test_rationalisation_padic_number():
+    assert rationalise(PAdic(Q(3, 8), 2, 12), algorithm=LGRR) == Q(3, 8)
+    assert rationalise(PAdic(Q(3, 8), 2, 12), algorithm=MQRR) == Q(3, 8)
+    assert rationalise(PAdic(Q(49, 2), 7, 12), algorithm=LGRR) == Q(49, 2)
+    assert rationalise(PAdic(Q(49, 2), 7, 12), algorithm=MQRR) == Q(49, 2)
 
 
 def test_fixed_relative_precision_is_more_stable_but_not_O_guaranteed():

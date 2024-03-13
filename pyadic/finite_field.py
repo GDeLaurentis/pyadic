@@ -285,7 +285,7 @@ def rationalise(a, n=None, algorithm=(LGRR, MQRR)[1]):
         elif isinstance(a, ModP):
             return rationalise(int(a), a.p, algorithm)
         elif isinstance(a, padic.PAdic):
-            return rationalise(int(a), a.p ** a.k, algorithm)
+            return rationalise(int(a), a.p ** a.k, algorithm) * fractions.Fraction(a.p) ** a.n
     return algorithm(a, n)
 
 

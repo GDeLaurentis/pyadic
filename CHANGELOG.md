@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Multivariate Newton interpolation algorithm, `multivariate_Newton_polynomial_interpolation`.
 
+### Changed
+
+- Improved compatibility of `extended_euclidean_algorithm`: output is of same type as input.
+
+### Fixed
+
+- Rationalisation of $p$-adic non integers [Issue 4](https://github.com/GDeLaurentis/pyadic/issues/4).
+- Fixed naming of `extended_euclidean_algorithm` (was `extended_euclideal_algorithm`).
+
 ## [0.2.0] - 2024-01-02
 
 ### Added
