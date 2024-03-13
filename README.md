@@ -7,7 +7,7 @@
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GDeLaurentis/pyadic/HEAD)
 
 
-The `pyadic` library is Python 3 package that provides number types for finite fields $\mathbb{F}_p$ (`ModP`) and $p$-adic numbers $\mathbb{Q}_p$ (`PAdic`). The goal is mimic the flexible behavior of built-in types, such as `int`, `float` and `complex`. Thus, one can mix-and-match the different number types, as long as the operations are consistent. In particular, `ModP` and `PAdic` are compatible with `fractions.Fraction`.
+The `pyadic` library is Python 3 package that provides number types for finite fields $\mathbb{F}_p$ (`ModP`) and $p$-adic numbers $\mathbb{Q}_p$ (`PAdic`). The goal is to mimic the flexible behavior of built-in types, such as `int`, `float` and `complex`. Thus, one can mix-and-match the different number types, as long as the operations are consistent. In particular, `ModP` and `PAdic` are compatible with `fractions.Fraction`.
 
 In addition to arithmetic operations, the pyadic library also provides the following functions:
 
