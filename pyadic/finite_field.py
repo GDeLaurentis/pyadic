@@ -68,6 +68,8 @@ class ModP(object):
             self.p = n.p ** n.k
         elif p is None and isinstance(n, str):
             self.n, self.p = self.__rstr__(n)
+        elif isinstance(n, str) and n.isnumeric():
+            self.n, self.p = int(n), p
         else:
             raise TypeError('Bad finite field constructor, (n, p) of  value:({}, {}) and type:({}, {}).'.format(n, p, type(n), type(p)))
 
@@ -160,7 +162,7 @@ class ModP(object):
     def _inv(self):
         """Find multiplicative inverse of self in Z_p (Z mod p) using the extended Euclidean algorithm."""
 
-        s, t, gcd = extended_euclideal_algorithm(int(self), self.p)
+        s, t, gcd = extended_euclidean_algorithm(int(self), self.p)
 
         if gcd != 1:
             raise ZeroDivisionError("Inverse of {} mod {} does not exist. Are you sure {} is prime?".format(self, self.p, self.p))
@@ -193,11 +195,17 @@ def vec_ModP(prime, optimize_for_sparse_arrays=True):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-def extended_euclideal_algorithm(a, b):
+def extended_euclidean_algorithm(a, b):
     """Returns Bezout coefficients (s,t) and gcd(a,b) such that: as+bt=gcd(a,b). - Pseudocode from https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm"""
+
+    # This ensures that the output is of the same type as the input,
+    # e.g. for working with a, b in sympy.polys.rings.PolyElement
+    zero = a * 0
+    one = zero + 1
+
     (old_r, r) = (a, b)
-    (old_s, s) = (1, 0)
-    (old_t, t) = (0, 1)
+    (old_s, s) = (one, zero)
+    (old_t, t) = (zero, one)
 
     while r != 0:
         quotient = old_r // r
@@ -213,7 +221,7 @@ def extended_euclideal_algorithm(a, b):
 
 
 def gcd(a, b):
-    _, _, gcd = extended_euclideal_algorithm(a, b)
+    _, _, gcd = extended_euclidean_algorithm(a, b)
     return gcd
 
 
@@ -288,7 +296,7 @@ def chinese_remainder(a1, a2):
     """Given a1 = a % n1 and a2 = a % n2 and assuming gcd(n1,n2)=1 (i.e. n1, n2 co-prime), returns a12 = a % (n1*n2)"""
     a1, n1 = int(a1), a1.p
     a2, n2 = int(a2), a2.p
-    q1, q2, gcd = extended_euclideal_algorithm(n1, n2)
+    q1, q2, gcd = extended_euclidean_algorithm(n1, n2)
     assert gcd == 1
     return ModP(a1 * (q2 * n2) + a2 * (q1 * n1), n1 * n2)
 

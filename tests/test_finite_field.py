@@ -7,7 +7,7 @@ import numpy
 from fractions import Fraction as Q
 
 from pyadic import ModP, PAdic
-from pyadic.finite_field import vec_ModP, extended_euclideal_algorithm, rationalise, MQRR, LGRR, \
+from pyadic.finite_field import vec_ModP, extended_euclidean_algorithm, rationalise, MQRR, LGRR, \
     finite_field_sqrt, chained_chinese_remainder, vec_chained_FF_rationalize
 from pyadic.field_extension import FieldExtension
 from pyadic.primes import primes
@@ -155,10 +155,10 @@ def test_hash():
     hash(ModP(12345, 10007))
 
 
-def test_extended_euclideal_algorithm():
+def test_extended_euclidean_algorithm():
     for i in range(10):
         a, b = random.randint(1, 1000), random.randint(1, 1000)
-        s, t, gcd = extended_euclideal_algorithm(a, b)
+        s, t, gcd = extended_euclidean_algorithm(a, b)
         assert a * s + b * t == gcd
 
 
