@@ -30,6 +30,8 @@ def test_same_class_instantiation_and_unary_plus():
 def test_instantiation_from_padic():
     assert ModP(PAdic(123, 2 ** 31 - 19, 3)) == ModP(123, (2 ** 31 - 19) ** 3)
 
+def test_instantiation_from_string():
+    assert ModP('+123', 2 ** 31 - 1) == ModP('-2147483524', 2 ** 31 - 1) ==  ModP(123, 2 ** 31 - 1)
 
 def test_instantiation_with_complex():
     p = 2 ** 31 - 19

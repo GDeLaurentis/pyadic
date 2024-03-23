@@ -68,8 +68,8 @@ class ModP(object):
             self.p = n.p ** n.k
         elif p is None and isinstance(n, str):
             self.n, self.p = self.__rstr__(n)
-        elif isinstance(n, str) and n.isnumeric():
-            self.n, self.p = int(n), p
+        elif isinstance(n, str) and (n.isnumeric() or n.lstrip("+-").isnumeric()):
+            self.n, self.p = int(n) % int(p), p
         else:
             raise TypeError('Bad finite field constructor, (n, p) of  value:({}, {}) and type:({}, {}).'.format(n, p, type(n), type(p)))
 
