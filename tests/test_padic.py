@@ -43,6 +43,14 @@ def test_str_non_zero():
     assert str(PAdic(1 + 2 * p + 3 * p ** 2, p, k)) == "1 + 2*{p} + 3*{p}^2 + O({p}^{k})".format(p=p, k=k)
 
 
+def test_tuple_from_zero_representation():
+    a = PAdic(64, 2, 12)
+    assert a.as_tuple_from_zero == (0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, )
+    a = PAdic(Q(1, 2), 2, 12)
+    with pytest.raises(ValueError):
+        a.as_tuple_from_zero
+
+
 def test_isscalar():
     assert numpy.isscalar(PAdic(3, 7, 1))
 

@@ -173,7 +173,15 @@ class PAdic(object):
 
     @property
     def as_tuple(self):
+        """Tuple reprensentation of the mantissa."""
         return (to_base(int(self), self.p) + tuple([0 for i in range(self.k)]))[:self.k]
+
+    @property
+    def as_tuple_from_zero(self):
+        """Tuple representation of the mantissa, shifted to start from p^0 term."""
+        if self.n < 0:
+            raise ValueError("PAdic tuple from zero representation is only defined for PAdic integers (non-negative valuation).")
+        return (0, ) * self.n + self.as_tuple
 
     def __getstate__(self):
         return (int(self), self.p, self.k, self.n)
