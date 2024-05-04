@@ -6,6 +6,7 @@
 [![PyPI](https://img.shields.io/pypi/v/pyadic?label=PyPI)](https://pypi.org/project/pyadic/)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/pyadic.svg?label=PyPI%20downloads)](https://pypistats.org/packages/pyadic)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/GDeLaurentis/pyadic/HEAD)
+[![DOI](https://zenodo.org/badge/519290930.svg)](https://zenodo.org/doi/10.5281/zenodo.11114230)
 
 
 The `pyadic` library is Python 3 package that provides number types for finite fields $\mathbb{F}_p$ (`ModP`) and $p$-adic numbers $\mathbb{Q}_p$ (`PAdic`). The goal is to mimic the flexible behavior of built-in types, such as `int`, `float` and `complex`. Thus, one can mix-and-match the different number types, as long as the operations are consistent. In particular, `ModP` and `PAdic` are compatible with `fractions.Fraction`.
