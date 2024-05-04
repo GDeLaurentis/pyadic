@@ -9,11 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+### Changed
+
+### Fixed
+
+## [0.2.1] - 2024-05-04
+
+### Added
+
 - Multivariate Newton interpolation algorithm, `multivariate_Newton_polynomial_interpolation`.
 
 ### Changed
 
 - Improved compatibility of `extended_euclidean_algorithm`: output is of same type as input.
+- Improved `ModP` and `PAdic` constructors to handle a wider variety of inputs, e.g. `ModP('+1', 2 ** 31 - 1)` is now valid.
+- Splitting CI Test and Lint, adding automatic PyPI release workflow.
 
 ### Fixed
 
@@ -54,7 +64,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Finite fields, `ModP`.
 
 
-[unreleased]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/GDeLaurentis/pyadic/releases/tag/v0.2.0
-[0.1.2]: https://github.com/GDeLaurentis/pyadic/releases/tag/v0.1.2
+[unreleased]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.0...v0.2.1
+[0.2.0]: https://github.com/GDeLaurentis/pyadic/compare/v0.1.2...v0.2.0
+[0.1.2]: https://github.com/GDeLaurentis/pyadic/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/GDeLaurentis/pyadic/releases/tag/v0.1.1

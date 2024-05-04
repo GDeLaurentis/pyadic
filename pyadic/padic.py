@@ -119,6 +119,8 @@ class PAdic(object):
         elif isinstance(num, fractions.Fraction):
             res = PAdic(num.numerator, p, k, n, from_addition) / PAdic(num.denominator, p, k, n, from_addition)
             self.num, self.p, self.k, self.n = res.num, res.p, res.k, res.n
+        elif isinstance(num, PAdic):
+            self.num, self.p, self.k, self.n = num.num, num.p, num.k, num.n
         elif hasattr(num, "imag"):
             res = PAdic(num.real, p, k, n, from_addition)
             if num.imag != 0:
@@ -131,8 +133,12 @@ class PAdic(object):
             self.k = res.k
             self.n = res.n
             self.num = res.num
-        elif isinstance(num, str):
+        elif p is None and k is None and isinstance(num, str):
             self.num, self.p, self.k, self.n = self.__rstr__(num)
+        elif isinstance(num, str):
+            num = fractions.Fraction(num)
+            res = PAdic(num.numerator, p, k, n, from_addition) / PAdic(num.denominator, p, k, n, from_addition)
+            self.num, self.p, self.k, self.n = res.num, res.p, res.k, res.n
         else:
             raise Exception(f"Invalid p-adic initialisation: {num}, {p}, {k}, {n}, {from_addition}.")
 

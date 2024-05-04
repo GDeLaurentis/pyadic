@@ -60,16 +60,18 @@ class ModP(object):
                 raise ValueError("Complex to ModP conversion requires √-1 in field or zero imaginary part.")
             self.n = res.n
             self.p = res.p
-        elif p is None and isinstance(n, ModP):
+        elif isinstance(n, ModP):
+            if p is not None:
+                assert p == n.p
             self.n = n.n
             self.p = n.p
         elif p is None and isinstance(n, padic.PAdic):
             self.n = int(n)
-            self.p = n.p ** n.k
-        elif p is None and isinstance(n, str):
-            self.n, self.p = self.__rstr__(n)
-        elif isinstance(n, str) and (n.isnumeric() or n.lstrip("+-").isnumeric()):
+            self.p = n.p ** n._k
+        elif isinstance(n, str) and (n.isnumeric() or n.lstrip("+-").isnumeric()) and p is not None:
             self.n, self.p = int(n) % int(p), p
+        elif isinstance(n, str):
+            self.n, self.p = self.__rstr__(n)
         else:
             raise TypeError('Bad finite field constructor, (n, p) of  value:({}, {}) and type:({}, {}).'.format(n, p, type(n), type(p)))
 

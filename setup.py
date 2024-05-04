@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='pyadic',
-    version='0.2.0',
+    version='0.2.1',
     license='GNU General Public License v3.0',
     description='p-Adic numbers and finite fields in Python',
     long_description=long_description,

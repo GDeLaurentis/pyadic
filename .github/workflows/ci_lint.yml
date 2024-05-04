@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-name: Continuous Integration
+name: CI Lint
 
 on:
   push:
@@ -28,23 +28,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install flake8 pytest pytest-cov
-        pip install -e pyadic
+        pip install flake8
     - name: Lint with flake8
       run: |
         cd pyadic
         flake8 pyadic/ --count --max-line-length=190 --statistics --verbose
-    - name: Test with pytest
-      run: |
-        cd pyadic
-        pytest |& tee coverage.txt
-    - name: Run update-badges script
-      run: |
-        cd pyadic
-        python update-badges.py
-    - name: Update badges and commit README.md
-      uses: stefanzweifel/git-auto-commit-action@v4
-      with:
-        file_pattern: README.md
-        repository: pyadic
-        commit_message: "Automatic badge update"
