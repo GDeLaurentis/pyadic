@@ -1,0 +1,56 @@
+name: Documentation
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+jobs:
+
+  BuildDocs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Checkout this Repo
+      uses: actions/checkout@v3
+      with:
+        path: .
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install sphinx sphinx-rtd-theme
+        pip install -e .
+    - name: Build docs
+      run: |
+        cd sphinx
+        make github
+    - name: setup git config
+      run: |
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
+    - name: Commit docs to gh-pages branch
+      run: |
+        cp -r docs/ docs.back/
+        echo "fetching..."
+        git fetch
+        git reset --hard
+        echo "checking out gh-pages..."
+        git checkout gh-pages
+        rm -r docs/
+        cp -r docs.back/ docs/
+        touch docs/.nojekyll
+        git checkout main README.md
+        git add -f docs/.nojekyll
+        git add -f docs/.buildinfo
+        git add README.md docs/*
+        echo "committing changes if needed..."
+        git status
+        if ! git diff-index --quiet HEAD; then
+          git commit -m "Automated docs update."
+          git push origin gh-pages
+        fi
