@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pyadic.padic &mdash; pyadic v0.3.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=bd95bda3"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="pyadic" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pyadic
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Modules Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">pyadic</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">pyadic.padic</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.PAdic"><code class="docutils literal notranslate"><span class="pre">PAdic</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.padic.PAdic.as_tuple"><code class="docutils literal notranslate"><span class="pre">PAdic.as_tuple</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.padic.PAdic.as_tuple_from_zero"><code class="docutils literal notranslate"><span class="pre">PAdic.as_tuple_from_zero</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.padic.PAdic.k"><code class="docutils literal notranslate"><span class="pre">PAdic.k</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.padic.PAdic.num"><code class="docutils literal notranslate"><span class="pre">PAdic.num</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.padic.PAdic.p"><code class="docutils literal notranslate"><span class="pre">PAdic.p</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.cached_function"><code class="docutils literal notranslate"><span class="pre">cached_function()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.check_orderable"><code class="docutils literal notranslate"><span class="pre">check_orderable()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.full_range_random_padic_filling"><code class="docutils literal notranslate"><span class="pre">full_range_random_padic_filling()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.padic_log"><code class="docutils literal notranslate"><span class="pre">padic_log()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.padic_sqrt"><code class="docutils literal notranslate"><span class="pre">padic_sqrt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.padicfy"><code class="docutils literal notranslate"><span class="pre">padicfy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.refine_sqrt_precision"><code class="docutils literal notranslate"><span class="pre">refine_sqrt_precision()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.to_base"><code class="docutils literal notranslate"><span class="pre">to_base()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyadic.finite_field">pyadic.finite_field</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.LGRR"><code class="docutils literal notranslate"><span class="pre">LGRR()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.LGreduction"><code class="docutils literal notranslate"><span class="pre">LGreduction()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.MQRR"><code class="docutils literal notranslate"><span class="pre">MQRR()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.ModP"><code class="docutils literal notranslate"><span class="pre">ModP</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.finite_field.ModP.n"><code class="docutils literal notranslate"><span class="pre">ModP.n</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.finite_field.ModP.p"><code class="docutils literal notranslate"><span class="pre">ModP.p</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.ModPfy"><code class="docutils literal notranslate"><span class="pre">ModPfy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.chained_chinese_remainder"><code class="docutils literal notranslate"><span class="pre">chained_chinese_remainder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.chinese_remainder"><code class="docutils literal notranslate"><span class="pre">chinese_remainder()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.extended_euclidean_algorithm"><code class="docutils literal notranslate"><span class="pre">extended_euclidean_algorithm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.finite_field_sqrt"><code class="docutils literal notranslate"><span class="pre">finite_field_sqrt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.gcd"><code class="docutils literal notranslate"><span class="pre">gcd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.isinteger"><code class="docutils literal notranslate"><span class="pre">isinteger()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.rationalise"><code class="docutils literal notranslate"><span class="pre">rationalise()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.univariate_finite_field_solver"><code class="docutils literal notranslate"><span class="pre">univariate_finite_field_solver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.update_root_dict"><code class="docutils literal notranslate"><span class="pre">update_root_dict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.vec_ModP"><code class="docutils literal notranslate"><span class="pre">vec_ModP()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.vec_chained_FF_rationalize"><code class="docutils literal notranslate"><span class="pre">vec_chained_FF_rationalize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyadic">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyadic</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">pyadic</a></li>
+      <li class="breadcrumb-item active">pyadic.padic</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/pyadic.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-pyadic.padic">
+<span id="pyadic-padic"></span><h1>pyadic.padic<a class="headerlink" href="#module-pyadic.padic" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyadic.padic.PAdic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">PAdic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_addition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.PAdic" title="Link to this definition"></a></dt>
+<dd><p>PAdic numbers, with p prime, k digits, n valuation.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyadic.padic.PAdic.as_tuple">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_tuple</span></span><a class="headerlink" href="#pyadic.padic.PAdic.as_tuple" title="Link to this definition"></a></dt>
+<dd><p>Tuple reprensentation of the mantissa.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyadic.padic.PAdic.as_tuple_from_zero">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_tuple_from_zero</span></span><a class="headerlink" href="#pyadic.padic.PAdic.as_tuple_from_zero" title="Link to this definition"></a></dt>
+<dd><p>Tuple representation of the mantissa, shifted to start from p^0 term.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyadic.padic.PAdic.k">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">k</span></span><a class="headerlink" href="#pyadic.padic.PAdic.k" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyadic.padic.PAdic.num">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">num</span></span><a class="headerlink" href="#pyadic.padic.PAdic.num" title="Link to this definition"></a></dt>
+<dd><p>0 ≤ num ≤ p ^ k - 1</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pyadic.padic.PAdic.p">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">p</span></span><a class="headerlink" href="#pyadic.padic.PAdic.p" title="Link to this definition"></a></dt>
+<dd><p>p: prime for the padic.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.padic.cached_function">
+<span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">cached_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.cached_function" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.padic.check_orderable">
+<span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">check_orderable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.check_orderable" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.padic.full_range_random_padic_filling">
+<span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">full_range_random_padic_filling</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.full_range_random_padic_filling" title="Link to this definition"></a></dt>
+<dd><p>Returns a random number which translates in a PAdic without any zero digit.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.padic.padic_log">
+<span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">padic_log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.padic_log" title="Link to this definition"></a></dt>
+<dd><p>If the valuation is 0, then bring in radius of convergence using Fermat’s little theorem (w ** (p - 1) = 1 mod p),
+i.e. log_p(w) = log_p(w^(p - 1)) / (p - 1), with w^(p - 1) = 1 + x, x ~ O(p).
+Otherwise, factor out p ^ valuation, use that log(a * b) = log(a) + log(b) and that log_p(p ^ valuation) = valuation
+What about branch? See sage docs.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.padic.padic_sqrt">
+<span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">padic_sqrt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.padic_sqrt" title="Link to this definition"></a></dt>
+<dd><p>Working precision padic sqrt.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.padic.padicfy">
+<span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">padicfy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.padicfy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.padic.refine_sqrt_precision">
+<span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">refine_sqrt_precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.refine_sqrt_precision" title="Link to this definition"></a></dt>
+<dd><p>Given (s | s^2 - x &lt;&lt; 1), makes s^2 closer to x.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.padic.to_base">
+<span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">to_base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.to_base" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-pyadic.finite_field">
+<span id="pyadic-finite-field"></span><h1>pyadic.finite_field<a class="headerlink" href="#module-pyadic.finite_field" title="Link to this heading"></a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.LGRR">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">LGRR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.LGRR" title="Link to this definition"></a></dt>
+<dd><p>Lattice Gaussian Rational Reconstruction</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.LGreduction">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">LGreduction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.LGreduction" title="Link to this definition"></a></dt>
+<dd><p>Lattice Gaussian Reduction - 2D version of LLL (Lenstra–Lenstra–Lovász)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.MQRR">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">MQRR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.MQRR" title="Link to this definition"></a></dt>
+<dd><p>Maximal Quotient Rational Reconstruction (M. B. Monagan)</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pyadic.finite_field.ModP">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">ModP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.ModP" title="Link to this definition"></a></dt>
+<dd><p>Finite field with p elements ($mathbb{FF}_p$), i.e. integers modulo p, with p prime.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyadic.finite_field.ModP.n">
+<span class="sig-name descname"><span class="pre">n</span></span><a class="headerlink" href="#pyadic.finite_field.ModP.n" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pyadic.finite_field.ModP.p">
+<span class="sig-name descname"><span class="pre">p</span></span><a class="headerlink" href="#pyadic.finite_field.ModP.p" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.ModPfy">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">ModPfy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.ModPfy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.chained_chinese_remainder">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">chained_chinese_remainder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.chained_chinese_remainder" title="Link to this definition"></a></dt>
+<dd><p>Vectorized (concatenated) version of chinese remainder function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.chinese_remainder">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">chinese_remainder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.chinese_remainder" title="Link to this definition"></a></dt>
+<dd><p>Given a1 = a % n1 and a2 = a % n2 and assuming gcd(n1,n2)=1 (i.e. n1, n2 co-prime), returns a12 = a % (n1*n2)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.extended_euclidean_algorithm">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">extended_euclidean_algorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.extended_euclidean_algorithm" title="Link to this definition"></a></dt>
+<dd><p>Returns Bezout coefficients (s,t) and gcd(a,b) such that: as+bt=gcd(a,b). - Pseudocode from <a class="reference external" href="https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm">https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.finite_field_sqrt">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">finite_field_sqrt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.finite_field_sqrt" title="Link to this definition"></a></dt>
+<dd><p>Returns either False or the first digit of the root in the field.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.gcd">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">gcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.gcd" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.isinteger">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">isinteger</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.isinteger" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.rationalise">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">rationalise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm=&lt;function</span> <span class="pre">MQRR&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.rationalise" title="Link to this definition"></a></dt>
+<dd><p>Given (a, n) returns a fraction r / s such that r/s % n = a, by lattice reduction. r = sa + mn  &lt;-&gt; r/s % n = a</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.univariate_finite_field_solver">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">univariate_finite_field_solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">equation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prime</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.univariate_finite_field_solver" title="Link to this definition"></a></dt>
+<dd><p>Returns all possible solutions of ‘equation’ over a finite field of cardinality ‘prime’.
+If already satisfied returns True, if no solution exists returns False.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.update_root_dict">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">update_root_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">symbol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solutions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.update_root_dict" title="Link to this definition"></a></dt>
+<dd><p>Given solutions and root_dict returns updated root_dicts.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.vec_ModP">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">vec_ModP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize_for_sparse_arrays</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.vec_ModP" title="Link to this definition"></a></dt>
+<dd><p>Vectorized version of ModP.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.vec_chained_FF_rationalize">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">vec_chained_FF_rationalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tensors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">primes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">factor=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm=&lt;function</span> <span class="pre">LGRR&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize_for_sparse_arrays=True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.vec_chained_FF_rationalize" title="Link to this definition"></a></dt>
+<dd><p>Given list of tensors respectively mod primes, returns the rationalized tensor.
+Keyword argument factor is pre-multiplied and then devided w.r.t. reconstruction,
+can be used to aid reconstruction or verify its stability.</p>
+</dd></dl>
+
+</section>
+<section id="module-pyadic">
+<span id="module-contents"></span><h1>Module contents<a class="headerlink" href="#module-pyadic" title="Link to this heading"></a></h1>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="pyadic" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2019, Giuseppe De Laurentis.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
