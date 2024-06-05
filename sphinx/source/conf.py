@@ -14,18 +14,21 @@
 #
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath('../../'))
+
+from version import __version__ as version
 
 # -- Project information -----------------------------------------------------
 
-project = u'pyadic'
-copyright = u'2019, Giuseppe De Laurentis'
-author = u'Giuseppe De Laurentis'
+project = 'pyadic'
+copyright = '2022, Giuseppe De Laurentis'
+author = 'Giuseppe De Laurentis'
 
 # The short X.Y version
-version = u''
+version = version
 # The full version, including alpha/beta/rc tags
-release = u'v0.3.1'
+release = version
 
 
 # -- General configuration ---------------------------------------------------
@@ -121,7 +124,7 @@ html_static_path = []   # e.g.: '_static'
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'pyadic-doc'
+htmlhelp_basename = f'{project}-doc'
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -148,7 +151,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'pyadic.tex', u'pyadic Documentation',
+    (master_doc, f'{project}.tex', f'{project} Documentation',
      u'Giuseppe De Laurentis', 'manual'),
 ]
 
@@ -158,7 +161,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'pyadic', u'pyadic Documentation',
+    (master_doc, f'{project}', f'{project} Documentation',
      [author], 1)
 ]
 
@@ -169,8 +172,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'pyadic', u'pyadic Documentation',
-     author, 'pyadic', 'One line description of project.',
+    (master_doc, f'{project}', f'{project} Documentation',
+     author, f'{project}', 'One line description of project.',
      'Miscellaneous'),
 ]
 
