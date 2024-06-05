@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Python 3.10, 3.11 and 3.12 are also tested in CI.
+
 ### Fixed
 
 ## [0.2.1] - 2024-05-04
