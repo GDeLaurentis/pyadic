@@ -18,7 +18,9 @@ In addition to arithmetic operations, the pyadic library also provides the follo
 - `rationalise` to perform rationalization ($\mathbb{F}_p\rightarrow \mathbb{Q}$ and $\mathbb{Q}_p \rightarrow \mathbb{Q}$);
 - `finite_field_sqrt` and `padic_sqrt` to compute square roots (which may involve `FieldExtension`);
 - `padic_log` to compute the $p$-adic logarithm.
+- polynomial and rational function interpolation, see `interpolation.py` module.
 
+A shout-out to [galois](https://github.com/mhostetter/galois) for a very nice tool. It is recommented for vectorized finite field operations, unless type compatibility is an issue. For scalar operation this repo is recommended. See performance comparison below.
 
 ## Installation
 The package is available on the [Python Package Index](https://pypi.org/project/pyadic/)
@@ -65,6 +67,49 @@ In [6]: rationalise(ModP(Q(7, 13), 2147483647))
 Out [6]: Fraction(7, 13)
 In [7]: rationalise(PAdic(Q(7, 13), 2147483647, 12))
 Out [7]: Fraction(7, 13)
+```
+
+## Perfomance comparison with [galois](https://github.com/mhostetter/galois) for finite fields
+
+Scalar instantiation and operations are faster in pyadic
+```python
+import numpy
+from galois import GF
+from pyadic import ModP
+from random import randint
+
+GFp = GF(2 ** 31 - 1)
+x = randint(0, 2 ** 31 - 1)
+
+%timeit GFp(x)
+2.84 µs ± 63.5 ns
+
+%timeit ModP(x, 2 ** 31 - 1)
+297 ns ± 0.876 ns
+
+%timeit GFp(x) ** 2
+30.1 µs ± 20.6 µs 
+
+%timeit ModP(x, 2 ** 31 - 1) ** 2
+2.23 µs ± 91.8 ns
+```
+
+while galois is faster for vectorized operations (the bigger the array the bigger the gain)
+```python
+%timeit numpy.array([randint(0, 2 ** 31 - 1) for i in range(100)]).view(GFp) ** 2
+65.6 µs ± 1.86 µs 
+
+%timeit numpy.array([ModP(randint(0, 2 ** 31 - 1), 2 ** 31 - 1) for i in range(100)]) ** 2
+351 µs ± 9.28 µs
+```
+
+However, galois requires everything to be appropriately typed, while pyadic performs type-casting on-the-fly
+```python
+numpy.array([randint(0, 2 ** 31 - 1) for i in range(100)]).view(GFp) / 2
+TypeError
+
+numpy.array([ModP(randint(0, 2 ** 31 - 1), 2 ** 31 - 1) for i in range(100)]) / 2
+array([...], dtype=object)
 ```
 
 ## Citation

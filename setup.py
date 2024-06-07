@@ -15,7 +15,11 @@ setup(
     author='Giuseppe De Laurentis',
     author_email='g.dl@hotmail.it',
     url='https://github.com/GDeLaurentis/pyadic',
-    download_url='https://github.com/GDeLaurentis/pyadic/archive/v0.2.0.tar.gz',
+    download_url=f'https://github.com/GDeLaurentis/pyadic/archive/v{version}.tar.gz',
+    project_urls={
+        'Documentation': 'https://gdelaurentis.github.io/pyadic/',
+        'Issues': 'https://github.com/GDeLaurentis/pyadic/issues',
+    },
     keywords=['p-adic numbers', 'finite-fields', 'rational reconstruction'],
     packages=find_packages(),
     include_package_data=True,
