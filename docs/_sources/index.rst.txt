@@ -1,8 +1,3 @@
-.. seampy documentation master file, created by
-   sphinx-quickstart on Tue Sep 24 12:11:24 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 pyAdic
 ===================================
 
