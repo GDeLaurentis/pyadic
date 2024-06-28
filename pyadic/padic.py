@@ -183,6 +183,11 @@ class PAdic(object):
         return (to_base(int(self), self.p) + tuple([0 for i in range(self.k)]))[:self.k]
 
     @property
+    def as_dict(self):
+        """Dict reprensentation: {valuation: mantissa digit}."""
+        return dict(zip(range(self.n, self.k), self.as_tuple))
+
+    @property
     def as_tuple_from_zero(self):
         """Tuple representation of the mantissa, shifted to start from p^0 term."""
         if self.n < 0:

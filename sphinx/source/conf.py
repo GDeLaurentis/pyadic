@@ -17,7 +17,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath('../../'))
 
-from version import __version__ as version
+from version import __version__ as version  # noqa: E402
 
 # -- Project information -----------------------------------------------------
 
