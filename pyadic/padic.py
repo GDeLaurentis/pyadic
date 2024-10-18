@@ -1,10 +1,11 @@
-import fractions
 import functools
 import math
 import numbers
 import numpy
 import random
 import re
+
+from fractions import Fraction as Q
 
 from .finite_field import ModP, finite_field_sqrt, isinteger
 from .field_extension import FieldExtension
@@ -55,7 +56,7 @@ def padicfy(func):
             if self.p != other.p:
                 raise ValueError(f"Can't cast a {other.p}-adic to a {self.p}-adic.")
             return func(self, other)
-        elif isinteger(other) or isinstance(other, ModP) or isinstance(other, fractions.Fraction) or (hasattr(other, "imag") and not isinstance(other, numpy.ndarray)):
+        elif isinteger(other) or isinstance(other, ModP) or isinstance(other, Q) or (hasattr(other, "imag") and not isinstance(other, numpy.ndarray)):
             return func(self, PAdic(other, self.p, max((self.n + self.k, self.k))))
         else:
             return NotImplemented
@@ -116,11 +117,19 @@ class PAdic(object):
                 self.k = self.k + factors_of_p
             if all_precision_loss_warning and self.k == 0:
                 print("Lost all precision @", self)
-        elif isinstance(num, fractions.Fraction):
+        elif isinstance(num, Q):
             res = PAdic(num.numerator, p, k, n, from_addition) / PAdic(num.denominator, p, k, n, from_addition)
             self.num, self.p, self.k, self.n = res.num, res.p, res.k, res.n
         elif isinstance(num, PAdic):
             self.num, self.p, self.k, self.n = num.num, num.p, num.k, num.n
+        elif isinstance(num, float):
+            if not (Q(num).limit_denominator(10 ** 3) == Q(num).limit_denominator(10 ** 5) == Q(num).limit_denominator(10 ** 8)):
+                raise ValueError(f"PAdic instantiation from float failed. It's unclear to which rational {num} corresponds to.")
+            res = PAdic(Q(num).limit_denominator(10 ** 3), p, k, n, from_addition)
+            self.p = res.p
+            self.k = res.k
+            self.n = res.n
+            self.num = res.num
         elif hasattr(num, "imag"):
             res = PAdic(num.real, p, k, n, from_addition)
             if num.imag != 0:
@@ -136,7 +145,7 @@ class PAdic(object):
         elif p is None and k is None and isinstance(num, str):
             self.num, self.p, self.k, self.n = self.__rstr__(num)
         elif isinstance(num, str):
-            num = fractions.Fraction(num)
+            num = Q(num)
             res = PAdic(num.numerator, p, k, n, from_addition) / PAdic(num.denominator, p, k, n, from_addition)
             self.num, self.p, self.k, self.n = res.num, res.p, res.k, res.n
         else:

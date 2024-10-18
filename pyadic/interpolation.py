@@ -84,7 +84,7 @@ def multivariate_Newton_polynomial_interpolation(f, prime, seed=0, depth=0, verb
         tpoly = tpoly.subs({'t': 't1', })
         return tpoly
 
-    t_sequence_generator = FFSequenceGenerator(prime, seed)
+    t_sequence_generator = FFSequenceGenerator(prime, seed=seed + depth)  # do not use same sequence for all variables!!!
     avals, tvals, subtracted = [], [], [f]
 
     dynamic_fsubtracted_string = f"""def fsubtracted(i, {''.join([f't{i}, ' for i in range(1, num_args + 1)])}):
