@@ -2,7 +2,7 @@
 
 [![CI Lint](https://github.com/GDeLaurentis/pyadic/actions/workflows/ci_lint.yml/badge.svg)](https://github.com/GDeLaurentis/pyadic/actions/workflows/ci_lint.yml)
 [![CI Test](https://github.com/GDeLaurentis/pyadic/actions/workflows/ci_test.yml/badge.svg)](https://github.com/GDeLaurentis/pyadic/actions/workflows/ci_test.yml)
-[![Coverage](https://img.shields.io/badge/Coverage-91%25-green?labelColor=2a2f35)](https://github.com/GDeLaurentis/pyadic/actions)
+[![Coverage](https://img.shields.io/badge/Coverage-90%25-green?labelColor=2a2f35)](https://github.com/GDeLaurentis/pyadic/actions)
 [![Docs](https://github.com/GDeLaurentis/pyadic/actions/workflows/cd_docs.yml/badge.svg?label=Docs)](https://gdelaurentis.github.io/pyadic/)
 [![PyPI](https://img.shields.io/pypi/v/pyadic?label=PyPI)](https://pypi.org/project/pyadic/)
 [![PyPI Downloads](https://img.shields.io/pypi/dm/pyadic.svg?label=PyPI%20downloads)](https://pypistats.org/packages/pyadic)
