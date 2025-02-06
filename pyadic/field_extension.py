@@ -46,38 +46,38 @@ class FieldExtension(object):
         return self.square == other.square and self.tuple[0] == other.tuple[0] and self.tuple[1] == other.tuple[1]
 
     def __add__(self, other):
-        if type(other) in [self.base_type, int, numpy.int64, fractions.Fraction] or str(type(other)) == "long":
+        if isinstance(other, (self.base_type, int, complex, numpy.integer, fractions.Fraction)):
             return FieldExtension(self.square, (self.tuple[0] + other, self.tuple[1]))
         elif isinstance(other, FieldExtension):
             assert self.square == other.square
             return FieldExtension(self.square, (self.tuple[0] + other.tuple[0], self.tuple[1] + other.tuple[1]))
         else:
-            raise TypeError
+            raise TypeError(f"Unsupported {other} of type {type(other)} for addition with {self} of type {type(self)}.")
 
     def __radd__(self, other):
         return self + other
 
     def __mul__(self, other):
-        if type(other) in [self.base_type, int, numpy.int64, fractions.Fraction] or str(type(other)) == "long":
+        if isinstance(other, (self.base_type, int, complex, numpy.integer, fractions.Fraction)):
             return FieldExtension(self.square, (self.tuple[0] * other, self.tuple[1] * other))
         elif isinstance(other, FieldExtension):
             assert self.square == other.square
             return FieldExtension(self.square, (self.tuple[0] * other.tuple[0] + self.square * self.tuple[1] * other.tuple[1],
                                                 self.tuple[0] * other.tuple[1] + self.tuple[1] * other.tuple[0]))
         else:
-            raise TypeError
+            raise TypeError(f"Unsupported {other} of type {type(other)} for multiplication with {self} of type {type(self)}.")
 
     def __rmul__(self, other):
         return self * other
 
     def __truediv__(self, other):
-        if type(other) in [self.base_type, int, numpy.int64, fractions.Fraction] or str(type(other)) == "long":
+        if isinstance(other, (self.base_type, int, complex, numpy.integer, fractions.Fraction)):
             return FieldExtension(self.square, (self.tuple[0] / other, self.tuple[1] / other))
         elif isinstance(other, FieldExtension):
             assert self.square == other.square
             return self * other._inverse()
         else:
-            raise TypeError
+            raise TypeError(f"Unsupported {other} of type {type(other)} for division with {self} of type {type(self)}.")
 
     def __div__(self, other):
         return self.__truediv__(other)
