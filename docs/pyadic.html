@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyadic.padic &mdash; pyadic 0.2.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+  <title>pyadic.padic &mdash; pyadic 0.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=000c92bf"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a47416a6"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,9 +33,6 @@
           <a href="index.html" class="icon icon-home">
             pyadic
           </a>
-              <div class="version">
-                0.2.2
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -51,6 +46,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">pyadic</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">pyadic.padic</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.padic.PAdic"><code class="docutils literal notranslate"><span class="pre">PAdic</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.padic.PAdic.as_dict"><code class="docutils literal notranslate"><span class="pre">PAdic.as_dict</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyadic.padic.PAdic.as_tuple"><code class="docutils literal notranslate"><span class="pre">PAdic.as_tuple</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyadic.padic.PAdic.as_tuple_from_zero"><code class="docutils literal notranslate"><span class="pre">PAdic.as_tuple_from_zero</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyadic.padic.PAdic.k"><code class="docutils literal notranslate"><span class="pre">PAdic.k</span></code></a></li>
@@ -127,6 +123,12 @@
 <dt class="sig sig-object py" id="pyadic.padic.PAdic">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyadic.padic.</span></span><span class="sig-name descname"><span class="pre">PAdic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">from_addition</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.padic.PAdic" title="Link to this definition"></a></dt>
 <dd><p>PAdic numbers, with p prime, k digits, n valuation.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pyadic.padic.PAdic.as_dict">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_dict</span></span><a class="headerlink" href="#pyadic.padic.PAdic.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Dict reprensentation: {valuation: mantissa digit}.</p>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="pyadic.padic.PAdic.as_tuple">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">as_tuple</span></span><a class="headerlink" href="#pyadic.padic.PAdic.as_tuple" title="Link to this definition"></a></dt>

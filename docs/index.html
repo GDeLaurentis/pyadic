@@ -1,23 +1,21 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="./">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyAdic &mdash; pyadic 0.2.2 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+  <title>pyAdic &mdash; pyadic 0.2.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="_static/jquery.js?v=5d32c60e"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="_static/documentation_options.js?v=000c92bf"></script>
-        <script src="_static/doctools.js?v=9a2dae69"></script>
-        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=a47416a6"></script>
+      <script src="_static/doctools.js?v=9a2dae69"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -35,9 +33,6 @@
           <a href="#" class="icon icon-home">
             pyadic
           </a>
-              <div class="version">
-                0.2.2
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -95,8 +90,8 @@ In particular, ModP and PAdic are compatible with fractions.Fraction.</p>
 <h2>Quick start<a class="headerlink" href="#quick-start" title="Link to this heading"></a></h2>
 <div class="literal-block-wrapper docutils container" id="id1">
 <div class="code-block-caption"><span class="caption-text">Instantiating number pyadic types</span><a class="headerlink" href="#id1" title="Link to this code"></a></div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span> <span class="nn">pyadic</span> <span class="kn">import</span> <span class="n">PAdic</span><span class="p">,</span> <span class="n">ModP</span>
-<span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">fractions</span> <span class="kn">import</span> <span class="n">Fraction</span> <span class="k">as</span> <span class="n">Q</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">from</span><span class="w"> </span><span class="nn">pyadic</span><span class="w"> </span><span class="kn">import</span> <span class="n">PAdic</span><span class="p">,</span> <span class="n">ModP</span>
+<span class="linenos"> 2</span><span class="kn">from</span><span class="w"> </span><span class="nn">fractions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fraction</span> <span class="k">as</span> <span class="n">Q</span>
 <span class="linenos"> 3</span>
 <span class="linenos"> 4</span><span class="c1"># 7/13 as a 12-digit 2147483647-adic number</span>
 <span class="linenos"> 5</span><span class="n">PAdic</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="mi">2147483647</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
@@ -110,7 +105,7 @@ In particular, ModP and PAdic are compatible with fractions.Fraction.</p>
 </div>
 <div class="literal-block-wrapper docutils container" id="id2">
 <div class="code-block-caption"><span class="caption-text">Mapping back to rational numbers</span><a class="headerlink" href="#id2" title="Link to this code"></a></div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">12</span><span class="kn">from</span> <span class="nn">pyadic.finite_field</span> <span class="kn">import</span> <span class="n">rationalise</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">12</span><span class="kn">from</span><span class="w"> </span><span class="nn">pyadic.finite_field</span><span class="w"> </span><span class="kn">import</span> <span class="n">rationalise</span>
 <span class="linenos">13</span>
 <span class="linenos">14</span><span class="n">rationalise</span><span class="p">(</span><span class="n">ModP</span><span class="p">(</span><span class="n">Q</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">13</span><span class="p">),</span> <span class="mi">2147483647</span><span class="p">))</span>
 <span class="linenos">15</span><span class="o">&gt;</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
