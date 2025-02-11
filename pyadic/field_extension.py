@@ -52,7 +52,9 @@ class FieldExtension(object):
             assert self.square == other.square
             return FieldExtension(self.square, (self.tuple[0] + other.tuple[0], self.tuple[1] + other.tuple[1]))
         else:
-            raise TypeError(f"Unsupported {other} of type {type(other)} for addition with {self} of type {type(self)}.")
+            # for debugging only - otherwise allow to use __radd__ from other
+            # raise TypeError(f"Unsupported {other} of type {type(other)} for addition with {self} of type {type(self)}.")
+            return NotImplemented
 
     def __radd__(self, other):
         return self + other
@@ -65,7 +67,9 @@ class FieldExtension(object):
             return FieldExtension(self.square, (self.tuple[0] * other.tuple[0] + self.square * self.tuple[1] * other.tuple[1],
                                                 self.tuple[0] * other.tuple[1] + self.tuple[1] * other.tuple[0]))
         else:
-            raise TypeError(f"Unsupported {other} of type {type(other)} for multiplication with {self} of type {type(self)}.")
+            # for debugging only - otherwise allow to use __rmull__ from other
+            # raise TypeError(f"Unsupported {other} of type {type(other)} for multiplication with {self} of type {type(self)}.")
+            return NotImplemented
 
     def __rmul__(self, other):
         return self * other
@@ -77,7 +81,9 @@ class FieldExtension(object):
             assert self.square == other.square
             return self * other._inverse()
         else:
-            raise TypeError(f"Unsupported {other} of type {type(other)} for division with {self} of type {type(self)}.")
+            # for debugging only - otherwise allow to use __rtruediv__ from other
+            # raise TypeError(f"Unsupported {other} of type {type(other)} for division with {self} of type {type(self)}.")
+            return NotImplemented
 
     def __div__(self, other):
         return self.__truediv__(other)

@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+
+## [0.2.3] - 2025-02-11
+
+### Changed
+
+- Python 3.13 in CI.
+
+### Fixed
+
+- Fixed issue with arithmetic operations between `FieldExtension` object and e.g. `numpy.ndarrays`.
+
 ## [0.2.2] - 2024-06-07
 
 ### Added
@@ -24,7 +35,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Python 3.10, 3.11 and 3.12 are also tested in CI.
 
-### Fixed
 
 ## [0.2.1] - 2024-05-04
 
@@ -42,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Rationalisation of $p$-adic non integers [Issue 4](https://github.com/GDeLaurentis/pyadic/issues/4).
 - Fixed naming of `extended_euclidean_algorithm` (was `extended_euclideal_algorithm`).
+
 
 ## [0.2.0] - 2024-01-02
 
@@ -77,8 +88,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Finite fields, `ModP`.
 
 
-[unreleased]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.2...HEAD
-[0.2.2]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.0...v0.2.2
+[unreleased]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.3...HEAD
+[0.2.2]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.2...v0.2.3
+[0.2.2]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/GDeLaurentis/pyadic/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/GDeLaurentis/pyadic/compare/v0.1.1...v0.1.2

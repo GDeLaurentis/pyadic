@@ -3,6 +3,7 @@ import pickle
 
 from fractions import Fraction as Q
 
+from pyadic.finite_field import ModP, finite_field_sqrt
 from pyadic.padic import PAdic, padic_sqrt
 from pyadic.field_extension import FieldExtension
 
@@ -61,3 +62,9 @@ def test_arithmetics():
     b = PAdic(Q(7, 13), 2 ** 31 - 1, 5)
     c = PAdic(Q(2, 3), 2 ** 31 - 1, 5)
     assert (a * j - j * b) / c / (+ j) == (a - b) / c
+
+
+def test_multiplication_with_numpy_array():
+    a = numpy.array([ModP("2 % 2147483629"), ModP("3 % 2147483629")])
+    b = finite_field_sqrt(ModP("6 % 2147483629"))
+    assert numpy.all(a * b == b * a)
