@@ -7,6 +7,8 @@ from pyadic.finite_field import ModP, finite_field_sqrt
 from pyadic.padic import PAdic, padic_sqrt
 from pyadic.field_extension import FieldExtension
 
+from syngular import Field
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
@@ -28,8 +30,8 @@ def test_isscalar():
 
 def test_inverse1():
     square = PAdic(8926681701808096183360073083313707792198548824, 2 ** 31 - 1, 5)
-    inverse = 1 / FieldExtension(square, (square * 0 + 1, square * 0 - 1))
-    assert inverse.tuple[0] == inverse.tuple[1]
+    inverse = 1 / FieldExtension(square, {(): square * 0 + 1, (square, ): square * 0 - 1})
+    assert inverse.dict_[()] == inverse.dict_[(square, )]
 
 
 def test_inverse2():
@@ -48,6 +50,25 @@ def test_inverse_power():
     square = PAdic(8926681701808096183360073083313707792198548824, 2 ** 31 - 1, 5)
     sqrt = padic_sqrt(square)
     assert 1 / sqrt == sqrt ** - 1
+
+
+def test_inverse_with_multiple_roots():
+    prime = 2 ** 31 - 1
+    field = Field("finite field", prime, 1)
+    assert isinstance(ModP(3, prime).sqrt(), FieldExtension)
+    assert isinstance(ModP(5, prime).sqrt(), FieldExtension)
+    assert isinstance(ModP(7, prime).sqrt(), FieldExtension)
+    assert isinstance(ModP(11, prime).sqrt(), FieldExtension)
+    assert isinstance(ModP(31, prime).sqrt(), FieldExtension)
+    squares = (ModP(3, prime), ModP(5, prime), ModP(7, prime))
+    x = FieldExtension(squares, {entry: field.random() for entry in FieldExtension(squares).basis})
+    assert 1 / x * x == 1
+    squares = (ModP(3, prime), ModP(5, prime), ModP(7, prime), ModP(11, prime))
+    x = FieldExtension(squares, {entry: field.random() for entry in FieldExtension(squares).basis})
+    assert 1 / x * x == 1
+    squares = (ModP(3, prime), ModP(5, prime), ModP(7, prime), ModP(11, prime), ModP(31, prime))
+    x = FieldExtension(squares, {entry: field.random() for entry in FieldExtension(squares).basis})
+    assert 1 / x * x == 1
 
 
 def test_power():

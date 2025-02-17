@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Support for `FieldExtension` of an arbitrary number of square roots. Does not check for relations among square roots.
+
 ### Changed
 
 ### Fixed
@@ -23,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed issue with arithmetic operations between `FieldExtension` object and e.g. `numpy.ndarrays`.
+
 
 ## [0.2.2] - 2024-06-07
 

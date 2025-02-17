@@ -174,6 +174,9 @@ class ModP(object):
     def __hash__(self):
         return hash(self.n) + hash(self.p)
 
+    def sqrt(self):
+        return finite_field_sqrt(self)
+
 
 numbers.Number.register(ModP)
 
