@@ -1,13 +1,12 @@
 import numpy
 import pickle
+import random
 
 from fractions import Fraction as Q
 
 from pyadic.finite_field import ModP, finite_field_sqrt
 from pyadic.padic import PAdic, padic_sqrt
 from pyadic.field_extension import FieldExtension
-
-from syngular import Field
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -54,20 +53,19 @@ def test_inverse_power():
 
 def test_inverse_with_multiple_roots():
     prime = 2 ** 31 - 1
-    field = Field("finite field", prime, 1)
     assert isinstance(ModP(3, prime).sqrt(), FieldExtension)
     assert isinstance(ModP(5, prime).sqrt(), FieldExtension)
     assert isinstance(ModP(7, prime).sqrt(), FieldExtension)
     assert isinstance(ModP(11, prime).sqrt(), FieldExtension)
     assert isinstance(ModP(31, prime).sqrt(), FieldExtension)
     squares = (ModP(3, prime), ModP(5, prime), ModP(7, prime))
-    x = FieldExtension(squares, {entry: field.random() for entry in FieldExtension(squares).basis})
+    x = FieldExtension(squares, {entry: ModP(random.randrange(0, prime), prime) for entry in FieldExtension(squares).basis})
     assert 1 / x * x == 1
     squares = (ModP(3, prime), ModP(5, prime), ModP(7, prime), ModP(11, prime))
-    x = FieldExtension(squares, {entry: field.random() for entry in FieldExtension(squares).basis})
+    x = FieldExtension(squares, {entry: ModP(random.randrange(0, prime), prime) for entry in FieldExtension(squares).basis})
     assert 1 / x * x == 1
     squares = (ModP(3, prime), ModP(5, prime), ModP(7, prime), ModP(11, prime), ModP(31, prime))
-    x = FieldExtension(squares, {entry: field.random() for entry in FieldExtension(squares).basis})
+    x = FieldExtension(squares, {entry: ModP(random.randrange(0, prime), prime) for entry in FieldExtension(squares).basis})
     assert 1 / x * x == 1
 
 
