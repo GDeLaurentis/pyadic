@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Fixed issue with `hash` of `ModP` and `PAdic` causing clashes in caches with `functools.lru_cache` due to hash(integer) = integer. Hashing function now hashes the string representation of the numbers.
+
+- Fixed issue with `PAdic` instantiation from string, where if the prime `p` and the number of digits `k` were supplied it would fail to call the `__rstr__` parser expecting a rational number even if the string was already an expansion in p.
+
+- CI doc workflow should now fail if Sphinx autodoc fails.
+
 
 ## [0.2.3] - 2025-02-11
 

@@ -172,7 +172,7 @@ class ModP(object):
         return ModP(s, self.p)
 
     def __hash__(self):
-        return hash(self.n) + hash(self.p)
+        return hash(str(self))
 
     def sqrt(self):
         return finite_field_sqrt(self)

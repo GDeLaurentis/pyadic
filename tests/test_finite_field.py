@@ -195,6 +195,12 @@ def test_sqrt_in_fintie_field():
     assert not isinstance(finite_field_sqrt(ModP(-1, 2 ** 31 - 19)), FieldExtension)
 
 
+@pytest.mark.parametrize("p", [5, 7, 11, 13])
+def test_hash_and_sqrt(p):
+    for i in range(p):
+        assert ModP(i, p).sqrt() ** 2 == ModP(i, p)
+
+
 def test_vec_chained_FF_rationalize():
     Qmatrix = numpy.array([[Q(16, 9973), Q(10007), 0], [Q(99991, 4), Q(100003), 0], [0, 0, 0]])
     used_primes = primes[:4]

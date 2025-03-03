@@ -142,7 +142,7 @@ class PAdic(object):
             self.k = res.k
             self.n = res.n
             self.num = res.num
-        elif p is None and k is None and isinstance(num, str):
+        elif isinstance(num, str) and ('O(' in num or (p is None and k is None)):
             self.num, self.p, self.k, self.n = self.__rstr__(num)
         elif isinstance(num, str):
             num = Q(num)
@@ -350,7 +350,7 @@ class PAdic(object):
             return self * (self ** (n - 1))
 
     def __hash__(self):
-        return hash(self.num) + hash(self.p) + hash(self.k) + hash(self.n)
+        return hash(str(self))
 
 
 numbers.Number.register(PAdic)
