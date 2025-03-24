@@ -177,6 +177,12 @@ class ModP(object):
     def sqrt(self):
         return finite_field_sqrt(self)
 
+    def root(self, n):
+        return finite_field_root(self, n)
+
+    def roots(self, n):
+        return finite_field_roots(self, n)
+
 
 numbers.Number.register(ModP)
 
@@ -348,15 +354,25 @@ def vec_chained_FF_rationalize(tensors, primes, factor=1, algorithm=LGRR, optimi
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-@functools.lru_cache
 def finite_field_sqrt(x):
-    """Returns either False or the first digit of the root in the field."""
+    roots = finite_field_roots(x, 2)
+    return roots[0] if len(roots) >= 1 else FieldExtension(x)
+
+
+def finite_field_root(x, n):
+    roots = finite_field_roots(x, n)
+    return roots[0] if len(roots) >= 1 else False
+
+
+@functools.lru_cache
+def finite_field_roots(x, n):
+    """Returns either False or the first digit of the roots in the field."""
     assert isinstance(x, ModP)
-    root = univariate_finite_field_solver(f"x^2-{int(x)}", dict(), x.p)
-    if root is False:
-        return FieldExtension(x)
+    roots = univariate_finite_field_solver(f"x^{int(n)}-{int(x)}", dict(), x.p)
+    if roots is False:
+        return []
     else:
-        return ModP(int(root[0][sympy.symbols('x')]), x.p)
+        return [ModP(int(root[sympy.symbols('x')]), x.p) for root in roots]
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
