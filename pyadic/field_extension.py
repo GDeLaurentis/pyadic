@@ -14,7 +14,8 @@ from functools import reduce
 
 class FieldExtension(object):
 
-    """Field extension by multiple sqrts."""
+    """Field extension by multiple sqrts. All sqrts are treated as unrelated, even if they are not.
+    The result may not be reduced, e.g. if a product of roots is left over it is currently not moved back into the field."""
 
     def get_sorting_key(self):
         from .finite_field import ModP
