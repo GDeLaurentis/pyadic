@@ -3,6 +3,7 @@ import fractions
 import functools
 import math
 import numbers
+import re
 
 import numpy
 import sympy
@@ -71,7 +72,7 @@ class ModP(object):
         elif isinstance(n, str) and (n.isnumeric() or n.lstrip("+-").isnumeric()) and p is not None:
             self.n, self.p = int(n) % int(p), p
         elif isinstance(n, str):
-            self.n, self.p = self.__rstr__(n)
+            self.n, self.p = self.__rstr__(n, p)
         else:
             raise TypeError('Bad finite field constructor, (n, p) of  value:({}, {}) and type:({}, {}).'.format(n, p, type(n), type(p)))
 
@@ -91,11 +92,13 @@ class ModP(object):
         return "%d %% %d" % (self, self.p)
 
     @staticmethod
-    def __rstr__(string):
+    def __rstr__(string, p=None):
         if "%" in string:
-            return tuple(map(int, string.replace(" ", "").split("%")))
+            return tuple(map(int, string.replace(" ", "").replace("(", "").replace(")", "").split("%")))
         elif "mod" in string:
             return tuple(map(int, string.replace(" ", "").split("mod")))
+        elif re.findall(r"[+-]?\d+(?:/\d+)?", string) != []:
+            return ModP(fractions.Fraction(string), p).n, p
         else:
             raise Exception(f"String {string} not understood")
 
