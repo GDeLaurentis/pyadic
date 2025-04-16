@@ -1,6 +1,7 @@
 import random
 import mpmath
 import functools
+import re
 
 from fractions import Fraction
 
@@ -49,21 +50,39 @@ class GaussianRational(object):
 
     __slots__ = ('real', 'imag')
 
-    def __init__(self, fraction_real, fraction_imag=0):
-        if isinstance(fraction_real, (int, str)):
-            fraction_real = Fraction(fraction_real)
-        if isinstance(fraction_imag, (int, str)):
-            fraction_imag = Fraction(fraction_imag)
-        if not (isinstance(fraction_real, Fraction) and isinstance(fraction_imag, Fraction)):
+    def __init__(self, fraction_real, fraction_imag=None):
+        if isinstance(fraction_real, (int, str, Fraction)) and isinstance(fraction_imag, (int, str, Fraction)):
+            self.real = Fraction(fraction_real)
+            self.imag = Fraction(fraction_imag)
+        elif isinstance(fraction_real, (int, Fraction)) and fraction_imag is None:
+            self.real = Fraction(fraction_real)
+            self.imag = Fraction(0)
+        elif isinstance(fraction_real, str) and fraction_imag is None:
+            self.real, self.imag = self.__rstr__(fraction_real)
+        elif hasattr(fraction_real, 'real') and hasattr(fraction_real, 'imag'):
+            self.real = Fraction(fraction_real.real).limit_denominator(1000)
+            self.imag = Fraction(fraction_real.imag).limit_denominator(1000)
+        elif (isinstance(fraction_real, tuple) and len(fraction_real) == 2 and
+              all([isinstance(entry, (int, str, Fraction)) for entry in fraction_real])):
+            self.imag = Fraction(fraction_real[1])
+            self.real = Fraction(fraction_real[0])
+        else:
             raise ValueError(f"Gaussian Rational invalid initialisation {fraction_real} {fraction_imag}")
-        self.real = fraction_real
-        self.imag = fraction_imag
 
     def __str__(self):
         if self.imag != 0:
-            return f"({self.real}+{self.imag}j)"
+            return f"({self.real}+{self.imag}j)".replace("+-", "-")
         else:
             return f"{self.real}"
+
+    @staticmethod
+    def __rstr__(string):
+        string = string.replace(" ", "")
+        pattern = r'^([+-]?\d+(?:/\d+)?|)?([+-]?\d+(?:/\d+)?j)?$'
+        m = re.fullmatch(pattern, string)
+        real = m.group(1) if m.group(1) else '0'
+        imag = m.group(2)[:-1] if m.group(2) else '0'
+        return Fraction(real), Fraction(imag)
 
     def __repr__(self):
         return f"GaussianRational({self.real}, {self.imag})"
@@ -128,3 +147,11 @@ class GaussianRational(object):
 
     def conjugate(self):
         return GaussianRational(self.real, - self.imag)
+
+    def __getitem__(self, index):
+        if index == 0:
+            return self.real
+        elif index == 1:
+            return self.imag
+        else:
+            raise IndexError("GaussianRational supports only indices 0 (real) and 1 (imag)")
