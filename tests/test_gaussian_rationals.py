@@ -22,12 +22,12 @@ def test_arithmetic_operations():
 
 def test_instantiation_from_strings():
     assert GaussianRational("2/3+1j") == GaussianRational(Q("2/3"), Q("1"))
-    assert GaussianRational("-3+3/4j") == GaussianRational(Q("-3"), Q("3/4"))
-    assert GaussianRational("5/6-7/8j") == GaussianRational(Q("5/6"), Q("-7/8"))
+    assert GaussianRational("-3+3/128j") == GaussianRational(Q("-3"), Q("3/128"))
+    assert GaussianRational("51/6-7/8j") == GaussianRational(Q("51/6"), Q("-7/8"))
     assert GaussianRational("-4") == GaussianRational(Q("-4"), Q("0"))
     assert GaussianRational("3/4") == GaussianRational(Q("3/4"), Q("0"))
     assert GaussianRational("+2j") == GaussianRational(Q("0"), Q("2"))
-    assert GaussianRational("-3/4j") == GaussianRational(Q("0"), Q("-3/4"))
+    assert GaussianRational("-33/4j") == GaussianRational(Q("0"), Q("-33/4"))
     assert GaussianRational("0") == GaussianRational(Q("0"), Q("0"))
 
 

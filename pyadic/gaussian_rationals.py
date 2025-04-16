@@ -78,10 +78,12 @@ class GaussianRational(object):
     @staticmethod
     def __rstr__(string):
         string = string.replace(" ", "")
-        pattern = r'^([+-]?\d+(?:/\d+)?|)?([+-]?\d+(?:/\d+)?j)?$'
-        m = re.fullmatch(pattern, string)
-        real = m.group(1) if m.group(1) else '0'
-        imag = m.group(2)[:-1] if m.group(2) else '0'
+        imag_pattern = r'([+-]?(?:\d+(?:/\d+)?))j$'
+        imag_match = re.search(imag_pattern, string)
+        imag = imag_match.group(1) if imag_match else '0'
+        if imag_match:
+            string = string[:imag_match.start()]
+        real = string if string else '0'
         return Fraction(real), Fraction(imag)
 
     def __repr__(self):
