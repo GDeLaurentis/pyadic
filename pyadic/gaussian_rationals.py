@@ -70,10 +70,14 @@ class GaussianRational(object):
             raise ValueError(f"Gaussian Rational invalid initialisation {fraction_real} {fraction_imag}")
 
     def __str__(self):
-        if self.imag != 0:
+        if self.real != 0 and self.imag != 0:
             return f"({self.real}+{self.imag}j)".replace("+-", "-")
-        else:
+        elif self.real != 0:
             return f"{self.real}"
+        elif self.imag != 0:
+            return f"{self.imag}j"
+        else:
+            return "0"
 
     @staticmethod
     def __rstr__(string):
