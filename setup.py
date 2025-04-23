@@ -12,7 +12,6 @@ setup(
     name='pyadic',
     version=version,
     license='GNU General Public License v3.0',
-    license_files=['LICENSE.txt'],
     description='p-Adic numbers and finite fields in Python',
     long_description=long_description,
     long_description_content_type='text/markdown',
