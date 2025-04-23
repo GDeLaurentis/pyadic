@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyadic.padic &mdash; pyadic 0.2.3 documentation</title>
+  <title>pyadic.padic &mdash; pyadic 0.2.4 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=a47416a6"></script>
+      <script src="_static/documentation_options.js?v=6ffd866b"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -71,12 +71,17 @@
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.ModP"><code class="docutils literal notranslate"><span class="pre">ModP</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pyadic.finite_field.ModP.n"><code class="docutils literal notranslate"><span class="pre">ModP.n</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#pyadic.finite_field.ModP.p"><code class="docutils literal notranslate"><span class="pre">ModP.p</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.finite_field.ModP.root"><code class="docutils literal notranslate"><span class="pre">ModP.root()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.finite_field.ModP.roots"><code class="docutils literal notranslate"><span class="pre">ModP.roots()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pyadic.finite_field.ModP.sqrt"><code class="docutils literal notranslate"><span class="pre">ModP.sqrt()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.ModPfy"><code class="docutils literal notranslate"><span class="pre">ModPfy()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.chained_chinese_remainder"><code class="docutils literal notranslate"><span class="pre">chained_chinese_remainder()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.chinese_remainder"><code class="docutils literal notranslate"><span class="pre">chinese_remainder()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.extended_euclidean_algorithm"><code class="docutils literal notranslate"><span class="pre">extended_euclidean_algorithm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.finite_field_root"><code class="docutils literal notranslate"><span class="pre">finite_field_root()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.finite_field_roots"><code class="docutils literal notranslate"><span class="pre">finite_field_roots()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.finite_field_sqrt"><code class="docutils literal notranslate"><span class="pre">finite_field_sqrt()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.gcd"><code class="docutils literal notranslate"><span class="pre">gcd()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.isinteger"><code class="docutils literal notranslate"><span class="pre">isinteger()</span></code></a></li>
@@ -242,6 +247,21 @@ What about branch? See sage docs.</p>
 <span class="sig-name descname"><span class="pre">p</span></span><a class="headerlink" href="#pyadic.finite_field.ModP.p" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pyadic.finite_field.ModP.root">
+<span class="sig-name descname"><span class="pre">root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.ModP.root" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyadic.finite_field.ModP.roots">
+<span class="sig-name descname"><span class="pre">roots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.ModP.roots" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyadic.finite_field.ModP.sqrt">
+<span class="sig-name descname"><span class="pre">sqrt</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.ModP.sqrt" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
@@ -268,10 +288,20 @@ What about branch? See sage docs.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.finite_field_root">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">finite_field_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.finite_field_root" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.finite_field_roots">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">finite_field_roots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.finite_field_roots" title="Link to this definition"></a></dt>
+<dd><p>Returns either False or the first digit of the roots in the field.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyadic.finite_field.finite_field_sqrt">
 <span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">finite_field_sqrt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.finite_field_sqrt" title="Link to this definition"></a></dt>
-<dd><p>Returns either False or the first digit of the root in the field.</p>
-</dd></dl>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyadic.finite_field.gcd">
