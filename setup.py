@@ -4,7 +4,7 @@ from pathlib import Path
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
-with (this_directory / "pentagon_functions" / "version.py").open() as f:
+with (this_directory / "pyadic" / "version.py").open() as f:
     version = f.read().split(" = '")[1].split("'\n")[0]
 
 
