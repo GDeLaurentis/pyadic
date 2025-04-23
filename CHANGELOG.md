@@ -9,9 +9,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Support for `FieldExtension` of an arbitrary number of square roots. Does not check for relations among square roots.
+### Changed
+
+### Fixed
+
+### Deprecated
+
+
+## [0.2.4] - 2025-04-23
+
+### Added
+
+- Support for `FieldExtension` of an arbitrary number of square roots. Does not check for relations among square roots. With finite fields, a single square root is sufficient, assuming a branch. This approach does not assume branches, but hides relations.
 
 ### Changed
+
+- Finite-field object `ModP` can be instantiated from a rational string, e.g. `2/3`, when the prime is also specified.
+
+- Improved parsing of `GaussianRational` and its string representation.
 
 ### Fixed
 
@@ -97,8 +112,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Finite fields, `ModP`.
 
 
-[unreleased]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.3...HEAD
-[0.2.2]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.2...v0.2.3
+[unreleased]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.4...HEAD
+[0.2.4]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.3...v0.2.4
+[0.2.3]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/GDeLaurentis/pyadic/compare/v0.1.2...v0.2.0
