@@ -3,6 +3,7 @@ import random
 import numpy
 import pyadic
 import pytest
+import hashlib
 
 from fractions import Fraction as Q
 
@@ -14,11 +15,22 @@ from pyadic.finite_field import rationalise, LGRR, MQRR
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-def test_picklable():
-    obj = PAdic(3 + 2 * 7, 7, 3)
-    mydump = pickle.dumps(obj, protocol=2)
-    loaded = pickle.loads(mydump)
-    assert obj == loaded
+@pytest.mark.parametrize(
+    'original', [
+        PAdic(3 + 2 * 7, 7, 3),
+        PAdic(Q(3, 7), 2 ** 31, 5),
+    ]
+)
+def test_serializable_and_hash_stable(original):
+    dumped = pickle.dumps(original)
+    loaded = pickle.loads(dumped)
+
+    assert original == loaded
+
+    hash1 = hashlib.sha256(pickle.dumps(original)).hexdigest()
+    hash2 = hashlib.sha256(pickle.dumps(loaded)).hexdigest()
+
+    assert hash1 == hash2
 
 
 def test_instantiation_from_complex_when_in_field():

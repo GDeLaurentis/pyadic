@@ -1,4 +1,8 @@
 import numpy
+import pytest
+import pickle
+import hashlib
+
 
 from fractions import Fraction as Q
 
@@ -33,3 +37,23 @@ def test_instantiation_from_strings():
 
 def test_instantiation_from_complex():
     assert GaussianRational(3.3 + 1.4j) == GaussianRational('33/10', '7/5')
+
+
+@pytest.mark.parametrize(
+    'original', [
+        GaussianRational("0"),
+        GaussianRational("3/4"),
+        GaussianRational("-33/4j"),
+        GaussianRational("-3+3/128j")
+    ]
+)
+def test_serializable_and_hash_stable(original):
+    dumped = pickle.dumps(original)
+    loaded = pickle.loads(dumped)
+
+    assert original == loaded
+
+    hash1 = hashlib.sha256(pickle.dumps(original)).hexdigest()
+    hash2 = hashlib.sha256(pickle.dumps(loaded)).hexdigest()
+
+    assert hash1 == hash2

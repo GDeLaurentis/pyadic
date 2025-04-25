@@ -13,7 +13,7 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 
-from pyadic.version import __version__ as version
+from pyadic import __version__ as version
 
 # -- Project information -----------------------------------------------------
 

@@ -3,6 +3,7 @@ import random
 import pytest
 import sympy
 import numpy
+import hashlib
 
 from fractions import Fraction as Q
 
@@ -16,11 +17,22 @@ from pyadic.primes import primes
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-def test_picklable():
-    obj = ModP('2 % 10007')
-    mydump = pickle.dumps(obj, protocol=2)
-    loaded = pickle.loads(mydump)
-    assert obj == loaded
+@pytest.mark.parametrize(
+    'original', [
+        ModP('2 % 10007'),
+        ModP(Q(3, 7), 2 ** 31),
+    ]
+)
+def test_serializable_and_hash_stable(original):
+    dumped = pickle.dumps(original)
+    loaded = pickle.loads(dumped)
+
+    assert original == loaded
+
+    hash1 = hashlib.sha256(pickle.dumps(original)).hexdigest()
+    hash2 = hashlib.sha256(pickle.dumps(loaded)).hexdigest()
+
+    assert hash1 == hash2
 
 
 def test_same_class_instantiation_and_unary_plus():

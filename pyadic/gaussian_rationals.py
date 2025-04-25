@@ -69,6 +69,15 @@ class GaussianRational(object):
         else:
             raise ValueError(f"Gaussian Rational invalid initialisation {fraction_real} {fraction_imag}")
 
+    def __getstate__(self):
+        return (self.real, self.imag)
+
+    def __setstate__(self, state):
+        self.__init__(*state)
+
+    def __hash__(self):
+        return hash(self.__getstate__())
+
     def __str__(self):
         if self.real != 0 and self.imag != 0:
             return f"({self.real}+{self.imag}j)".replace("+-", "-")
