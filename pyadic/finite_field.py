@@ -43,7 +43,7 @@ class ModP(object):
 
     __slots__ = 'n', 'p'
 
-    def __init__(self, n, p=None):
+    def __init__(self, n, p=None, called_recursively=False):
         if p is not None and isinteger(n) and isinteger(p):
             self.n = int(n) % int(p)
             self.p = int(p)
@@ -51,8 +51,8 @@ class ModP(object):
             self_ = ModP(n.numerator, p) / ModP(n.denominator, p)
             self.n = self_.n
             self.p = self_.p
-        elif p is not None and hasattr(n, "imag"):
-            res = ModP(n.real, p)
+        elif p is not None and hasattr(n, "imag") and not called_recursively:
+            res = ModP(n.real, p, called_recursively=True)
             if n.imag != 0:
                 b = ModP(n.imag, p)
                 i = finite_field_sqrt(ModP(-1, p))  # this fails if p is a prime power

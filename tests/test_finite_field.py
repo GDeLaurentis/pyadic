@@ -4,6 +4,7 @@ import pytest
 import sympy
 import numpy
 import hashlib
+import mpmath
 
 from fractions import Fraction as Q
 
@@ -61,6 +62,11 @@ def test_instantiation_with_complex_requires_field_extension():
 def test_nonsense_instantiation():
     with pytest.raises(TypeError):
         ModP((), [])
+
+
+def test_bad_instantiation():
+    with pytest.raises(TypeError):
+        ModP(mpmath.mpc(1, 0), 7)
 
 
 def test_isscalar():
