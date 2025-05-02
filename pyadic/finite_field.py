@@ -167,7 +167,7 @@ class ModP(object):
     def _inv(self):
         """Find multiplicative inverse of self in Z_p (Z mod p) using the extended Euclidean algorithm."""
 
-        s, t, gcd = extended_euclidean_algorithm(int(self), self.p)
+        s, _, gcd = extended_euclidean_algorithm(int(self), self.p)
 
         if gcd != 1:
             raise ZeroDivisionError("Inverse of {} mod {} does not exist. Are you sure {} is prime?".format(self, self.p, self.p))
@@ -209,34 +209,57 @@ def vec_ModP(prime, optimize_for_sparse_arrays=True):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-def extended_euclidean_algorithm(a, b):
-    """Returns Bezout coefficients (s,t) and gcd(a,b) such that: as+bt=gcd(a,b). - Pseudocode from https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm"""
+def extended_euclidean_algorithm(a, b, as_generator=False):
+    """Returns Bezout coefficients (s,t) and r=gcd(a,b) such that: as+bt=r=gcd(a,b).
+    Pseudocode from https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm.
+    If as_generator is True then a sequence of s, t, r is returned.
+    """
+    def generator():
+        # This ensures that the output is of the same type as the input,
+        # e.g. for working with a, b in sympy.polys.rings.PolyElement
+        zero = a * 0
+        one = zero + 1
 
-    # This ensures that the output is of the same type as the input,
-    # e.g. for working with a, b in sympy.polys.rings.PolyElement
-    zero = a * 0
-    one = zero + 1
+        (old_r, r) = (a, b)
+        (old_s, s) = (one, zero)
+        (old_t, t) = (zero, one)
 
-    (old_r, r) = (a, b)
-    (old_s, s) = (one, zero)
-    (old_t, t) = (zero, one)
+        while r != 0:
+            quotient = old_r // r
+            (old_r, r) = (r, old_r - quotient * r)
+            (old_s, s) = (s, old_s - quotient * s)
+            (old_t, t) = (t, old_t - quotient * t)
+            # on last iteration
+            # output "Bézout coefficients:", (old_s, old_t)
+            # output "greatest common divisor:", old_r
+            # output "quotients by the gcd:", (t, s)
+            yield (old_s, old_t, old_r)
 
-    while r != 0:
-        quotient = old_r // r
-        (old_r, r) = (r, old_r - quotient * r)
-        (old_s, s) = (s, old_s - quotient * s)
-        (old_t, t) = (t, old_t - quotient * t)
-
-    # output "Bézout coefficients:", (old_s, old_t)
-    # output "greatest common divisor:", old_r
-    # output "quotients by the gcd:", (t, s)
-
-    return (old_s, old_t, old_r)
+    if as_generator:
+        return generator()
+    else:
+        for s, t, r in generator():
+            pass
+        return (s, t, r)
 
 
 def gcd(a, b):
     _, _, gcd = extended_euclidean_algorithm(a, b)
     return gcd
+
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
+
+
+def EEARR(a, n=None):
+    """Extended euclidean algorithm rational reconstruction"""
+    if n is None:
+        n = a.p
+    res = None
+    for s, t, r in extended_euclidean_algorithm(int(a), n, as_generator=True):
+        if (res is None or abs(s * r) < abs(res.numerator * res.denominator)) and s != 0:
+            res = fractions.Fraction(r, s)
+    return res
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -291,8 +314,8 @@ def LGRR(a, n):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-def rationalise(a, n=None, algorithm=(LGRR, MQRR)[1]):
-    """Given (a, n) returns a fraction r / s such that r/s % n = a, by lattice reduction. r = sa + mn  <-> r/s % n = a"""
+def rationalise(a, n=None, algorithm=(LGRR, MQRR, EEARR)[0]):
+    """Given a % n or (a, n) returns a fraction r / s such that r/s % n = a. Can choose between LGRR, MQRR, and EEARR algorithms."""
     if n is None:  # for FF argument
         if isinstance(a, int):
             return fractions.Fraction(a, 1)

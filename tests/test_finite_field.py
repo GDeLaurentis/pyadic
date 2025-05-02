@@ -9,7 +9,7 @@ import mpmath
 from fractions import Fraction as Q
 
 from pyadic import ModP, PAdic
-from pyadic.finite_field import vec_ModP, extended_euclidean_algorithm, rationalise, MQRR, LGRR, \
+from pyadic.finite_field import vec_ModP, extended_euclidean_algorithm, rationalise, MQRR, LGRR, EEARR, \
     finite_field_sqrt, chained_chinese_remainder, vec_chained_FF_rationalize
 from pyadic.field_extension import FieldExtension
 from pyadic.primes import primes
@@ -192,6 +192,10 @@ def test_reconstruction_LGRR_2147483647():
     assert rationalise(298260199, 2147483647, algorithm=LGRR) == Q(11326, 42041)
 
 
+def test_reconstruction_EEARR_2147483647():
+    assert rationalise(298260199, 2147483647, algorithm=EEARR) == Q(-51071, 36)
+
+
 def test_trivial_rationalisation():
     assert rationalise(1234) == 1234
 
@@ -199,6 +203,7 @@ def test_trivial_rationalisation():
 def test_rationalisation_large_power():
     assert rationalise(ModP(Q(7, 13), 2147483647 ** 12), algorithm=LGRR) == Q(7, 13)
     assert rationalise(ModP(Q(7, 13), 2147483647 ** 12), algorithm=MQRR) == Q(7, 13)
+    assert rationalise(ModP(Q(7, 13), 2147483647 ** 12), algorithm=EEARR) == Q(7, 13)
 
 
 def test_chained_chinese_remainder():
