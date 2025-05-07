@@ -193,7 +193,9 @@ def test_reconstruction_LGRR_2147483647():
 
 
 def test_reconstruction_EEARR_2147483647():
-    assert rationalise(298260199, 2147483647, algorithm=EEARR) == Q(-51071, 36)
+    with pytest.raises(ValueError):
+        assert rationalise(298260199, 2147483647, algorithm=EEARR) == Q(-51071, 36)
+    assert rationalise(298260199, 2147483647, algorithm=lambda *args: EEARR(*args, raise_error=False)) == Q(11326, 42041)
 
 
 def test_trivial_rationalisation():

@@ -26,8 +26,10 @@ def to_gaussian_rational(other):
         assert other.real.is_integer() and other.imag.is_integer()
         return GaussianRational(Fraction(int(other.real), 1), Fraction(int(other.imag), 1))
     elif type(other) is mpmath.mpc:
-        assert mpmath.isint(other, gaussian=True)
-        return GaussianRational(Fraction(int(other.real), 1), Fraction(int(other.imag), 1))
+        if mpmath.isint(other, gaussian=True):
+            return GaussianRational(Fraction(int(other.real), 1), Fraction(int(other.imag), 1))
+        else:
+            return other
     else:
         raise Exception("Can't convert {} of type {} to GaussianRational.".format(other, type(other)))
 
@@ -108,11 +110,14 @@ class GaussianRational(object):
 
     @gaussian_rational
     def __add__(self, other):
-        return GaussianRational(self.real + other.real, self.imag + other.imag)
+        try:
+            return GaussianRational(self.real + other.real, self.imag + other.imag)
+        except (TypeError, ValueError):
+            return (self.real + other.real) + 1j * (self.imag + other.imag)
 
     @gaussian_rational
     def __radd__(self, other):
-        return other + self
+        return self + other
 
     @gaussian_rational
     def __sub__(self, other):
@@ -124,11 +129,14 @@ class GaussianRational(object):
 
     @gaussian_rational
     def __mul__(self, other):
-        return GaussianRational(self.real * other.real - self.imag * other.imag, self.real * other.imag + self.imag * other.real)
+        try:
+            return GaussianRational(self.real * other.real - self.imag * other.imag, self.real * other.imag + self.imag * other.real)
+        except (TypeError, ValueError):
+            return (self.real * other.real - self.imag * other.imag) + 1j * (self.real * other.imag + self.imag * other.real)
 
     @gaussian_rational
     def __rmul__(self, other):
-        return other * self
+        return self * other
 
     @gaussian_rational
     def __truediv__(self, other):

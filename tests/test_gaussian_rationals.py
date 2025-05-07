@@ -3,9 +3,9 @@ import pytest
 import pickle
 import hashlib
 
-
 from fractions import Fraction as Q
 
+from syngular import Field
 from pyadic.gaussian_rationals import GaussianRational, rand_rat_frac
 
 
@@ -57,3 +57,9 @@ def test_serializable_and_hash_stable(original):
     hash2 = hashlib.sha256(pickle.dumps(loaded)).hexdigest()
 
     assert hash1 == hash2
+
+
+def test_arithmetics_with_mpc():
+    a, b = Field("mpc", 0, 300).random(), Field("gaussian rational", 0, 0).random()
+    assert a + b == b + a
+    assert a * b == b * a

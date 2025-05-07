@@ -31,11 +31,18 @@ jobs:
       with:
         path: pyadic
 
+    - name: Checkout another Repo (syngular)
+      uses: actions/checkout@v4
+      with:
+        repository: GDeLaurentis/syngular
+        path: syngular
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pytest pytest-cov
         pip install -e pyadic
+        pip install -e syngular
 
     - name: Test with pytest
       run: |

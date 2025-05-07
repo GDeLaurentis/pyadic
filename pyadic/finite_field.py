@@ -251,21 +251,22 @@ def gcd(a, b):
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-def EEARR(a, n=None):
-    """Extended euclidean algorithm rational reconstruction"""
-    if n is None:
-        n = a.p
-    res = None
-    for s, t, r in extended_euclidean_algorithm(int(a), n, as_generator=True):
-        if (res is None or abs(s * r) < abs(res.numerator * res.denominator)) and s != 0:
-            res = fractions.Fraction(r, s)
-    return res
+def EEARR(a, m=None, raise_error=True):
+    """Extended euclidean algorithm rational reconstruction.
+    Algorithm by Paul S. Wang in 'A p-adic Algorithm for Univariate Partial Fractions'."""
+    m2 = math.ceil(math.sqrt(m / 2))
+    for s, t, r in extended_euclidean_algorithm(int(a), m, as_generator=True):
+        if abs(r) < m2:
+            break
+    if abs(s) > m2 and raise_error:
+        raise ValueError
+    return fractions.Fraction(r, s)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
-def MQRR(u, m, T=None):
+def MQRR(u, m, T=None, raise_error=True):
     """Maximal Quotient Rational Reconstruction (M. B. Monagan)"""
     if T is None:
         c = 1
@@ -286,8 +287,8 @@ def MQRR(u, m, T=None):
         (t0, t1) = (t1, t0 - q * t1)
     if d < 0:
         (n, d) = (-n, -d)
-    if d == 0 or gcd(n, d) not in (1, d):
-        return False
+    if (d == 0 or gcd(n, d) not in (1, d)) and raise_error:
+        raise ValueError
     return fractions.Fraction(n, d)
 
 
