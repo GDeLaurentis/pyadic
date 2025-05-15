@@ -256,7 +256,7 @@ def EEARR(a, m=None, raise_error=True):
     Algorithm by Paul S. Wang in 'A p-adic Algorithm for Univariate Partial Fractions'."""
     m2 = math.ceil(math.sqrt(m / 2))
     for s, t, r in extended_euclidean_algorithm(int(a), m, as_generator=True):
-        if abs(r) < m2:
+        if r < m2:
             break
     if abs(s) > m2 and raise_error:
         raise ValueError
