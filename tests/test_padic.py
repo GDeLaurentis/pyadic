@@ -112,6 +112,13 @@ def test_multiplication_by_one():
     assert a * 1 == a
 
 
+def test_multiplication_by_zero():
+    # test this gives zero, important for [high precision padic, low precision padic] @ [1, 0] not losing precision
+    p, k, n = 10007, 3, 2
+    a = PAdic(random.randrange(0, 10000), p, k, n)
+    assert isinstance(a * 0, int) and a * 0 == 0
+
+
 def test_multiplication_with_array():
     p, k, n = 10007, 3, 2
     a = PAdic(random.randrange(0, 10000), p, k, n)

@@ -57,6 +57,8 @@ def padicfy(func):
                 raise ValueError(f"Can't cast a {other.p}-adic to a {self.p}-adic.")
             return func(self, other)
         elif isinteger(other) or isinstance(other, ModP) or isinstance(other, Q) or (hasattr(other, "imag") and not isinstance(other, numpy.ndarray)):
+            if func.__name__ in ["__mul__", "__rmul__"] and (isinteger(other) or isinstance(other, Q)) and other == 0:
+                return 0
             return func(self, PAdic(other, self.p, max((self.n + self.k, self.k))))
         else:
             return NotImplemented
