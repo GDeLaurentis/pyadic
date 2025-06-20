@@ -9,7 +9,7 @@ from collections.abc import Iterator
 from pyadic import ModP
 
 
-def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False):
+def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_expr=True):
     """Univariate polynomial interpolation of f(t), samples taken modulo prime. See arXiv:1608.01902 section 3.2"""
     t_sequence_generator = FFSequenceGenerator(prime, seed)
     t = sympy.symbols('t')
@@ -31,10 +31,12 @@ def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False):
     tpoly = FFGF(0)
     for aval, tval in zip(avals[:-2][::-1], tvals[:-2][::-1]):
         tpoly = int(aval) + (FFGF(t) - int(tval)) * tpoly
-    return tpoly.as_expr()
+    if as_expr:
+        return tpoly.as_expr()
+    return tpoly
 
 
-def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0, verbose=False):
+def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0, verbose=False, as_expr=True):
     """Univariate rational interpolation of f(t), samples taken modulo prime. See arXiv:1608.01902 section 3.3"""
     t_sequence_generator = FFSequenceGenerator(prime, seed)
     t = sympy.symbols('t')
@@ -70,7 +72,9 @@ def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0,
     tpoly = FFGF(int(avals[-1]))
     for aval, tval in zip(avals[-2::-1], tvals[-2::-1]):
         tpoly = int(aval) + (FFGF(t) - int(tval)) / tpoly
-    return tpoly.as_expr()
+    if as_expr:
+        return tpoly.as_expr()
+    return tpoly
 
 
 def multivariate_Newton_polynomial_interpolation(f, prime, seed=0, depth=0, verbose=False):

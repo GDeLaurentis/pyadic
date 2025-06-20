@@ -233,6 +233,7 @@ class PAdic(object):
     @staticmethod
     def __rstr__(string):
         """Constructor from string (inverse method to __str__ or __repr__)."""
+        string = string.replace(" ", "")
         # get the prime
         prime = int(re.findall(r"O\((\d+)", string)[0])
         if prime == 1:  # for the case with + O(1)
@@ -240,7 +241,7 @@ class PAdic(object):
             if match != []:
                 prime = int(match[0])
         # get the valuation
-        valuation = string.split(" + ")[0]
+        valuation = string.split("+")[0]
         valuation = re.findall(rf"{prime}[\^\-\d+]*", valuation)
         if valuation == []:
             valuation = 0
@@ -250,7 +251,7 @@ class PAdic(object):
             else:
                 valuation = 1
         # get the mantissa
-        mantissa = [int(re.sub(r"\*[\^\-\d+]{0,}", "", entry.replace(f"{prime}", "").replace(" ", ""))) for entry in string.split("+")[:-1]]
+        mantissa = [int(re.sub(r"\*[\^\-\d+]{0,}", "", entry.replace(f"{prime}", ""))) for entry in string.split("+")[:-1]]
         significant_digits = len(mantissa)
         mantissa = sum([entry * prime ** i for i, entry in enumerate(mantissa)])
         return (mantissa, prime, significant_digits, valuation)
