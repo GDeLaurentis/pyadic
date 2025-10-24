@@ -68,6 +68,8 @@ def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0,
         oo = sympy.oo  # noqa, used in eval
         return eval(tpoly)
     # get the single fraction (i.e. simplify the continued fraction)
+    if len(avals) == 0:
+        return sympy.oo
     FFGF = sympy.GF(prime).frac_field(t)
     tpoly = FFGF(int(avals[-1]))
     for aval, tval in zip(avals[-2::-1], tvals[-2::-1]):
