@@ -9,7 +9,7 @@ from collections.abc import Iterator
 from pyadic import ModP
 
 
-def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_expr=True):
+def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_sum=False, as_expr=True):
     """Univariate polynomial interpolation of f(t), samples taken modulo prime. See arXiv:1608.01902 section 3.2"""
     t_sequence_generator = FFSequenceGenerator(prime, seed)
     t = sympy.symbols('t')
@@ -27,6 +27,13 @@ def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_expr=Tru
         subtracted += [fsubtracted_partial]
     if verbose:
         print(f"\rFinished after {len(avals)} samples: {avals}.", end=" ")
+    if as_nested_sum:
+        tpoly = "0"
+        for aval, tval in zip(avals[:-2][::-1], tvals[:-2][::-1]):
+            tpoly = f"({int(aval)}+(t-{int(tval)})*({tpoly}))"
+        if verbose:
+            print(f"\nNested sum representation: {tpoly}")
+        return eval(tpoly)
     FFGF = sympy.GF(prime).frac_field(t)
     tpoly = FFGF(0)
     for aval, tval in zip(avals[:-2][::-1], tvals[:-2][::-1]):
@@ -68,6 +75,8 @@ def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0,
         oo = sympy.oo  # noqa, used in eval
         return eval(tpoly)
     # get the single fraction (i.e. simplify the continued fraction)
+    if len(avals) == 0:
+        return sympy.oo
     FFGF = sympy.GF(prime).frac_field(t)
     tpoly = FFGF(int(avals[-1]))
     for aval, tval in zip(avals[-2::-1], tvals[-2::-1]):
