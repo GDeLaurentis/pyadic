@@ -84,7 +84,7 @@ def multivariate_Newton_polynomial_interpolation(f, prime, seed=0, depth=0, verb
     function_signature = inspect.signature(f)
     num_args = len(function_signature.parameters)
     if num_args == 1:
-        tpoly = Newton_polynomial_interpolation(f, prime, seed=seed, verbose=verbose)
+        tpoly = Newton_polynomial_interpolation(f, prime, seed=seed + depth, verbose=verbose)
         tpoly = tpoly.subs({'t': 't1', })
         return tpoly
 
