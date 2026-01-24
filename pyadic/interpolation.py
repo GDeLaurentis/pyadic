@@ -14,6 +14,7 @@ def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_s
     t_sequence_generator = FFSequenceGenerator(prime, seed)
     t = sympy.symbols('t')
     avals, tvals, subtracted = [], [], [f]
+    skips, max_skips = 0, 3
 
     def fsubtracted(i, t):
         return (subtracted[i - 1](t) - avals[i - 1]) / (t - tvals[i - 1])
@@ -22,9 +23,19 @@ def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_s
         if verbose:
             print(f"\r@ {len(avals)}, {avals}", end="")
         tvals += [next(t_sequence_generator)]
-        avals += [subtracted[-1](tvals[-1])]
-        fsubtracted_partial = functools.partial(fsubtracted, len(avals))
-        subtracted += [fsubtracted_partial]
+        try:
+            avals += [subtracted[-1](tvals[-1])]
+        except ZeroDivisionError:
+            if verbose:
+                print("\n[Newton_polynomial_interpolation] Caught ZeroDivisionError - skipping sample.", end=" ")
+            tvals = tvals[:-1]
+            skips += 1
+            if skips >= max_skips:
+                raise RuntimeError(f"Too many ({max_skips}) ZeroDivisionError skips; check t-sequence / interpolation.")
+            continue
+        else:
+            fsubtracted_partial = functools.partial(fsubtracted, len(avals))
+            subtracted += [fsubtracted_partial]
     if verbose:
         print(f"\rFinished after {len(avals)} samples: {avals}.", end=" ")
     if as_nested_sum:
@@ -123,8 +134,8 @@ def multivariate_Newton_polynomial_interpolation(f, prime, seed=0, depth=0, verb
         exec(function_string, local_dict)
         rest_function = local_dict['rest_function']
         avals += [multivariate_Newton_polynomial_interpolation(rest_function, prime, seed=seed, depth=depth + 1, verbose=verbose)]
-        avals[-1] = avals[-1].subs({f't{i}': f't{i+1}' for i in range(1, num_args)}, simultaneous=True)
-        avals[-1] = sympy.poly(avals[-1], sympy.symbols([f't{i+1}' for i in range(1, num_args)]), modulus=prime)
+        avals[-1] = avals[-1].subs({f't{i}': f't{i + 1}' for i in range(1, num_args)}, simultaneous=True)
+        avals[-1] = sympy.poly(avals[-1], sympy.symbols([f't{i + 1}' for i in range(1, num_args)]), modulus=prime)
         fsubtracted_partial = functools.partial(fsubtracted, len(avals))
         subtracted += [fsubtracted_partial]
 
