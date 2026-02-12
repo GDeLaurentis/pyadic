@@ -49,3 +49,26 @@ def test_Thiele_rational_interpolation():
 
 def test_Thiele_rational_interpolation_as_continued_fractionl():
     Thiele_rational_interpolation(Rtest1, 2 ** 31 - 1, as_continued_fraction=True, verbose=True)
+
+
+def test_Newton_polynomial_interpolation_skips_zerodivision():
+    class PtestWithZeroDivision:
+        def __init__(self):
+            self.calls = 0
+
+        def __call__(self, tval):
+            self.calls += 1
+            if self.calls == 3:
+                raise ZeroDivisionError("Intentional test failure on 3rd call")
+            return tval**20 + tval - 1
+
+    Ptest = PtestWithZeroDivision()
+
+    result = Newton_polynomial_interpolation(
+        Ptest,
+        2**31 - 1,
+        verbose=True,
+    )
+
+    assert result == t**20 + t - 1
+    assert Ptest.calls >= 3  # sanity check that the exception path was hit
