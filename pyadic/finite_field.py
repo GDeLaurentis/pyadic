@@ -66,9 +66,14 @@ class ModP(object):
                 assert p == n.p
             self.n = n.n
             self.p = n.p
-        elif p is None and isinstance(n, padic.PAdic):
-            self.n = int(n)
-            self.p = n.p ** n._k
+        elif isinstance(n, padic.PAdic):
+            # Interpret as reduction to the residue field F_p (unit part mod p)
+            if p is None:
+                p = n.p
+            if int(p) != int(n.p):
+                raise ValueError(f"Can't reduce {n.p}-adic to FF{p}.")
+            self.n = int(n.num % n.p)
+            self.p = int(n.p)
         elif isinstance(n, str) and (n.isnumeric() or n.lstrip("+-").isnumeric()) and p is not None:
             self.n, self.p = int(n) % int(p), p
         elif isinstance(n, str):
@@ -323,7 +328,7 @@ def rationalise(a, n=None, algorithm=(LGRR, MQRR, EEARR)[0]):
         elif isinstance(a, ModP):
             return rationalise(int(a), a.p, algorithm)
         elif isinstance(a, padic.PAdic):
-            return rationalise(int(a), a.p ** a.k, algorithm) * fractions.Fraction(a.p) ** a.n
+            return rationalise(a.num, a.p ** a.k, algorithm) * fractions.Fraction(a.p) ** a.n
     return algorithm(a, n)
 
 

@@ -191,7 +191,7 @@ class PAdic(object):
     @property
     def as_tuple(self):
         """Tuple reprensentation of the mantissa."""
-        return (to_base(int(self), self.p) + tuple([0 for i in range(self.k)]))[:self.k]
+        return (to_base(self.num, self.p) + tuple([0 for i in range(self.k)]))[:self.k]
 
     @property
     def as_dict(self):
@@ -206,7 +206,7 @@ class PAdic(object):
         return (0, ) * self.n + self.as_tuple
 
     def __getstate__(self):
-        return (int(self), self.p, self.k, self.n)
+        return (self.num, self.p, self.k, self.n)
 
     def __setstate__(self, state):
         self.__init__(*state)
@@ -260,8 +260,7 @@ class PAdic(object):
 
     @padicfy
     def __eq__(self, other):
-        return all([int(self) == int(other), self.p == other.p, self.k == other.k, self.n == other.n])
-    #  or all([int(self) == int(other) == 0, self.p == other.p, self.k + self.n == other.k]))  # e.g. 0 * p + O(p^2) == 0 + O(p^2)
+        return all([self.num == other.num, self.p == other.p, self.k == other.k, self.n == other.n])
 
     @padicfy
     def __le__(self, other):
@@ -282,7 +281,9 @@ class PAdic(object):
     # ALGEBRA
 
     def __int__(self):
-        return self.num
+        if self.n < 0:
+            raise ValueError(f"Only p-adic integers can be converted to int, not p-adic numbers with negative valuation. Received valuation {self.n}.")
+        return self.num * self.p ** self.n
 
     def __abs__(self):
         return PAdic(0, self.p, 0, self.n)
@@ -292,9 +293,8 @@ class PAdic(object):
         if self.n > other.n:
             return other + self
         else:
-            return PAdic((int(self) + int(other) * self.p ** (other.n - self.n)), self.p,
+            return PAdic((self.num + other.num * self.p ** (other.n - self.n)), self.p,
                          self.k if self.k < (other.n - self.n) + other.k else (other.n - self.n) + other.k, self.n, from_addition=True)
-        #                         ((self.k + self.n) if (self.k + self.n) < (other.k + other.n) else (other.k + other.n)) - self.n, self.n, from_addition=True)
 
     @padicfy
     def __radd__(self, other):
@@ -310,7 +310,7 @@ class PAdic(object):
 
     @padicfy
     def __mul__(self, other):
-        return PAdic((int(self) * int(other)) % self.p ** self.k, self.p, min([self.k, other.k]), self.n + other.n)
+        return PAdic((self.num * other.num) % self.p ** self.k, self.p, min([self.k, other.k]), self.n + other.n)
 
     @padicfy
     def __rmul__(self, other):
@@ -318,7 +318,7 @@ class PAdic(object):
 
     @padicfy
     def __truediv__(self, other):
-        return PAdic(int(int(self) * ModP(int(other), other.p ** other.k)._inv()) % self.p ** self.k, self.p, min([self.k, other.k]), self.n - other.n)
+        return PAdic(int(self.num * ModP(other.num, other.p ** other.k)._inv()) % self.p ** self.k, self.p, min([self.k, other.k]), self.n - other.n)
 
     @padicfy
     def __div__(self, other):
@@ -334,7 +334,7 @@ class PAdic(object):
 
     def __neg__(self):
         """Unary '-' operation"""
-        return PAdic((-1 * int(self)) % self.p ** self.k, self.p, self.k, self.n)
+        return PAdic((-1 * self.num) % self.p ** self.k, self.p, self.k, self.n)
 
     def __pos__(self):
         """Unary '+' operation"""
