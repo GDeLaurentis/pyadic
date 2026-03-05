@@ -37,7 +37,7 @@ def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_s
             fsubtracted_partial = functools.partial(fsubtracted, len(avals))
             subtracted += [fsubtracted_partial]
     if verbose:
-        print(f"\rFinished after {len(avals)} samples: {avals}.", end=" ")
+        print(f"\r[Newton_polynomial_interpolation] Finished after {len(avals)} samples: {avals}.", end=" ")
     if as_nested_sum:
         tpoly = "0"
         for aval, tval in zip(avals[:-2][::-1], tvals[:-2][::-1]):
@@ -126,7 +126,7 @@ def multivariate_Newton_polynomial_interpolation(f, prime, seed=0, depth=0, verb
         if verbose:
             if depth != 0:
                 print()
-            print(f"@ depth: {depth} - samples: {len(avals)}, {(avals, tvals)}", end="\n")
+            print(f"[multivariate Newton poly interpolation] @ depth: {depth} - samples: {len(avals)}, {(avals, tvals)}", end="\n")
         tvals += [next(t_sequence_generator)]
         local_dict = {'ModP': ModP, 'subtracted': subtracted}  # Include any necessary objects in the local dictionary
         function_string = f"""def rest_function({''.join([f't{i}, ' for i in range(2, num_args + 1)])}):
@@ -140,11 +140,13 @@ def multivariate_Newton_polynomial_interpolation(f, prime, seed=0, depth=0, verb
         subtracted += [fsubtracted_partial]
 
     if verbose:
-        print(f"\nFinished after {len(avals)} samples: {avals}.", end="\n")
+        print(f"\n[multivariate Newton poly interpolation] Finished after {len(avals)} samples: {avals}.", end="\n")
 
     FFGF = sympy.GF(prime).frac_field(*sympy.symbols([f't{i}' for i in range(1, num_args + 1)]))
     tpoly = FFGF(0)
-    for aval, tval in zip(avals[:-2][::-1], tvals[:-2][::-1]):
+    for i, (aval, tval) in enumerate(zip(avals[:-2][::-1], tvals[:-2][::-1])):
+        if verbose:
+            print(f"\n[multivariate Newton poly interpolation] Assembling results at {i + 1}/{len(avals) - 2}", end="")
         tpoly = FFGF(aval.as_expr()) + (FFGF(sympy.symbols('t1')) - int(tval)) * tpoly
     return tpoly.as_expr()
 
