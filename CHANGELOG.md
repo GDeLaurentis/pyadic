@@ -16,6 +16,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 
 
+## [0.3.0] - 2026-03-05
+
+### Added
+
+- implemented extended euclidean algorithm (eea) option for returning a generator
+- Wang's eea rational reconstruction algorithm `EEARR`
+- `primes_with_i`
+
+### Changed
+
+- Extended serialization and hashing capabilities and tests
+- option to disable `ValueError` being raised by reconstruction algorithms that are aware of when (likely) failing
+- Nested sum (Horner) option for `Newton_polynomial_interpolation`
+- Newton interpolation catches up to 3 `ZeroDivisionError` before giving up
+
+### ⚠️ Breaking
+
+- Clarified two somewhat arbitrary choices: `int(padic)` returns the (lossless) integer representation of a padic integer, but now raises and exception if the valuation is negative. `ModP(padic)` now takes the residue modulo p, i.e. the leading digit mantissa, for any valuation. The old `int(padic)` behaviour is still avaiable through the mantissa, `padic.num` - this may require some small fix in codes: `int(padic)` -> `padic.num`. The advantage is that now padic plays better with e.g. sympy polynomials modulo p powers (before non-zero valuations would be discarded returning nonesense).
+
+### Fixed
+
+- Avoid obscure infinite recursion in ModP.__init__ when trying to pass it a mpmath value by mistake, raise explcit TypeError instead
+- special case for p-adic multiplication by zero, fixes precision loss e.g. in [high precision padic, low precision padic] @ [1, 0]
+
+
+### Deprecated
+
+
 ## [0.2.4] - 2025-04-23
 
 ### Added
@@ -112,7 +140,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Finite fields, `ModP`.
 
 
-[unreleased]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.4...HEAD
+[unreleased]: https://github.com/GDeLaurentis/pyadic/compare/v0.3.0...HEAD
+[0.2.5]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.4...v0.3.0
 [0.2.4]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.3...v0.2.4
 [0.2.3]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.2...v0.2.3
 [0.2.2]: https://github.com/GDeLaurentis/pyadic/compare/v0.2.1...v0.2.2
