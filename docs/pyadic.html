@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>pyadic.padic &mdash; pyadic 0.2.4 documentation</title>
+  <title>pyadic.padic &mdash; pyadic 0.3.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
-      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=6ffd866b"></script>
+      <script src="_static/documentation_options.js?v=e259d695"></script>
       <script src="_static/doctools.js?v=9a2dae69"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -65,6 +65,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyadic.finite_field">pyadic.finite_field</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.EEARR"><code class="docutils literal notranslate"><span class="pre">EEARR()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.LGRR"><code class="docutils literal notranslate"><span class="pre">LGRR()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.LGreduction"><code class="docutils literal notranslate"><span class="pre">LGreduction()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#pyadic.finite_field.MQRR"><code class="docutils literal notranslate"><span class="pre">MQRR()</span></code></a></li>
@@ -216,6 +217,13 @@ What about branch? See sage docs.</p>
 <section id="module-pyadic.finite_field">
 <span id="pyadic-finite-field"></span><h1>pyadic.finite_field<a class="headerlink" href="#module-pyadic.finite_field" title="Link to this heading"></a></h1>
 <dl class="py function">
+<dt class="sig sig-object py" id="pyadic.finite_field.EEARR">
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">EEARR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.EEARR" title="Link to this definition"></a></dt>
+<dd><p>Extended euclidean algorithm rational reconstruction.
+Algorithm by Paul S. Wang in ‘A p-adic Algorithm for Univariate Partial Fractions’.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="pyadic.finite_field.LGRR">
 <span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">LGRR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.LGRR" title="Link to this definition"></a></dt>
 <dd><p>Lattice Gaussian Rational Reconstruction</p>
@@ -229,13 +237,13 @@ What about branch? See sage docs.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyadic.finite_field.MQRR">
-<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">MQRR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.MQRR" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">MQRR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">u</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.MQRR" title="Link to this definition"></a></dt>
 <dd><p>Maximal Quotient Rational Reconstruction (M. B. Monagan)</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pyadic.finite_field.ModP">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">ModP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.ModP" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">ModP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">called_recursively</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.ModP" title="Link to this definition"></a></dt>
 <dd><p>Finite field with p elements ($mathbb{FF}_p$), i.e. integers modulo p, with p prime.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pyadic.finite_field.ModP.n">
@@ -283,8 +291,10 @@ What about branch? See sage docs.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyadic.finite_field.extended_euclidean_algorithm">
-<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">extended_euclidean_algorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.extended_euclidean_algorithm" title="Link to this definition"></a></dt>
-<dd><p>Returns Bezout coefficients (s,t) and gcd(a,b) such that: as+bt=gcd(a,b). - Pseudocode from <a class="reference external" href="https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm">https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm</a></p>
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">extended_euclidean_algorithm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">as_generator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.extended_euclidean_algorithm" title="Link to this definition"></a></dt>
+<dd><p>Returns Bezout coefficients (s,t) and r=gcd(a,b) such that: as+bt=r=gcd(a,b).
+Pseudocode from <a class="reference external" href="https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm">https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm</a>.
+If as_generator is True then a sequence of s, t, r is returned.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -315,8 +325,8 @@ What about branch? See sage docs.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="pyadic.finite_field.rationalise">
-<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">rationalise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm=&lt;function</span> <span class="pre">MQRR&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.rationalise" title="Link to this definition"></a></dt>
-<dd><p>Given (a, n) returns a fraction r / s such that r/s % n = a, by lattice reduction. r = sa + mn  &lt;-&gt; r/s % n = a</p>
+<span class="sig-prename descclassname"><span class="pre">pyadic.finite_field.</span></span><span class="sig-name descname"><span class="pre">rationalise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm=&lt;function</span> <span class="pre">LGRR&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyadic.finite_field.rationalise" title="Link to this definition"></a></dt>
+<dd><p>Given a % n or (a, n) returns a fraction r / s such that r/s % n = a. Can choose between LGRR, MQRR, and EEARR algorithms.</p>
 </dd></dl>
 
 <dl class="py function">
