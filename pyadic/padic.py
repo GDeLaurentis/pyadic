@@ -4,6 +4,7 @@ import numbers
 import numpy
 import random
 import re
+import sympy
 
 from fractions import Fraction as Q
 
@@ -119,7 +120,7 @@ class PAdic(object):
                 self.k = self.k + factors_of_p
             if all_precision_loss_warning and self.k == 0:
                 print("Lost all precision @", self)
-        elif isinstance(num, Q):
+        elif isinstance(num, (Q, sympy.Rational)):
             res = PAdic(num.numerator, p, k, n, from_addition) / PAdic(num.denominator, p, k, n, from_addition)
             self.num, self.p, self.k, self.n = res.num, res.p, res.k, res.n
         elif isinstance(num, PAdic):

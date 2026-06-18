@@ -47,7 +47,7 @@ class ModP(object):
         if p is not None and isinteger(n) and isinteger(p):
             self.n = int(n) % int(p)
             self.p = int(p)
-        elif p is not None and isinstance(n, fractions.Fraction):
+        elif p is not None and isinstance(n, (fractions.Fraction, sympy.Rational)):
             self_ = ModP(n.numerator, p) / ModP(n.denominator, p)
             self.n = self_.n
             self.p = self_.p
@@ -293,7 +293,7 @@ def MQRR(u, m, T=None, raise_error=True):
     if d < 0:
         (n, d) = (-n, -d)
     if (d == 0 or gcd(n, d) not in (1, d)) and raise_error:
-        raise ValueError
+        raise ValueError(f"Numerator: {n}, Denominator: {d}")
     return fractions.Fraction(n, d)
 
 
