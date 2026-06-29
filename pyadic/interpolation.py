@@ -9,12 +9,13 @@ from collections.abc import Iterator
 from pyadic import ModP
 
 
-def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_sum=False, as_expr=True):
+def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_sum=False, as_expr=True,
+                                    catch_errors=(ZeroDivisionError, AssertionError, RuntimeError), max_skips=3, ):
     """Univariate polynomial interpolation of f(t), samples taken modulo prime. See arXiv:1608.01902 section 3.2"""
     t_sequence_generator = FFSequenceGenerator(prime, seed)
     t = sympy.symbols('t')
     avals, tvals, subtracted = [], [], [f]
-    skips, max_skips = 0, 3
+    skips = 0
 
     def fsubtracted(i, t):
         return (subtracted[i - 1](t) - avals[i - 1]) / (t - tvals[i - 1])
@@ -25,13 +26,13 @@ def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_s
         tvals += [next(t_sequence_generator)]
         try:
             avals += [subtracted[-1](tvals[-1])]
-        except ZeroDivisionError:
+        except catch_errors as error:
             if verbose:
-                print("\n[Newton_polynomial_interpolation] Caught ZeroDivisionError - skipping sample.", end=" ")
+                print(f"\n[Newton_polynomial_interpolation] Caught {type(error).__name__} - skipping sample.", end=" ")
             tvals = tvals[:-1]
             skips += 1
             if skips >= max_skips:
-                raise RuntimeError(f"Too many ({max_skips}) ZeroDivisionError skips; check t-sequence / interpolation.")
+                raise RuntimeError(f"Too many ({max_skips}) {type(error).__name__} skips; check t-sequence / interpolation.")
             continue
         else:
             fsubtracted_partial = functools.partial(fsubtracted, len(avals))
@@ -54,44 +55,67 @@ def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_s
     return tpoly
 
 
-def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0, verbose=False, as_expr=True):
+def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0, verbose=False, as_expr=True,
+                                  catch_errors=(ZeroDivisionError, AssertionError, RuntimeError), max_skips=3, ):
     """Univariate rational interpolation of f(t), samples taken modulo prime. See arXiv:1608.01902 section 3.3"""
+    class InterpolationFinished(Exception):
+        pass
+
+    def is_zero(value):
+        return (numpy.isscalar(value) and value == 0) or numpy.all(value == 0)
+
     t_sequence_generator = FFSequenceGenerator(prime, seed)
     t = sympy.symbols('t')
     avals, tvals, subtracted = [], [], [f]
+    skips = 0
 
     def fsubtracted(i, t):
-        denom = (subtracted[i - 1](t) - avals[i - 1])
-        if (numpy.isscalar(denom) and denom == 0) or (numpy.all(denom == 0)):
-            raise ZeroDivisionError
+        denom = subtracted[i - 1](t) - avals[i - 1]
+        if is_zero(denom):
+            raise InterpolationFinished
         return (t - tvals[i - 1]) / denom
 
     while True:
         if verbose:
             print(f"\r@ {len(avals)}, {avals}", end="")
-        tvals += [next(t_sequence_generator)]
+
+        tval = next(t_sequence_generator)
+
         try:
-            avals += [subtracted[-1](tvals[-1])]
-        except ZeroDivisionError:
-            tvals = tvals[:-1]
+            aval = subtracted[-1](tval)
+        except InterpolationFinished:
             break
-        fsubtracted_partial = functools.partial(fsubtracted, len(avals))
-        subtracted += [fsubtracted_partial]
+        except catch_errors as error:
+            skips += 1
+            if verbose:
+                print(f"\n[Thiele_rational_interpolation] Caught {type(error).__name__} - skipping sample.", end=" ")
+            if skips >= max_skips:
+                raise RuntimeError(f"Too many ({max_skips}) {type(error).__name__} skips; check t-sequence / interpolation.") from error
+            continue
+
+        tvals.append(tval)
+        avals.append(aval)
+        subtracted.append(functools.partial(fsubtracted, len(avals)))
+
     if verbose:
-        print(f"\rFinished after {len(avals)} samples, {avals}.", end=" ")
+        print(f"\r[Thiele_rational_interpolation] Finished after {len(avals)} samples: {avals}.", end=" ")
+
     if as_continued_fraction:
         tpoly = "oo"
-        for aval, tval in zip(avals[:][::-1], tvals[:][::-1]):
+        for aval, tval in zip(avals[::-1], tvals[::-1]):
             tpoly = f"({int(aval)}+(t-{int(tval)})/(" + tpoly + "))"
         oo = sympy.oo  # noqa, used in eval
         return eval(tpoly)
-    # get the single fraction (i.e. simplify the continued fraction)
+
     if len(avals) == 0:
         return sympy.oo
+
     FFGF = sympy.GF(prime).frac_field(t)
     tpoly = FFGF(int(avals[-1]))
+
     for aval, tval in zip(avals[-2::-1], tvals[-2::-1]):
         tpoly = int(aval) + (FFGF(t) - int(tval)) / tpoly
+
     if as_expr:
         return tpoly.as_expr()
     return tpoly
