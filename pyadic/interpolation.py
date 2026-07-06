@@ -21,13 +21,13 @@ def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_s
         return (subtracted[i - 1](t) - avals[i - 1]) / (t - tvals[i - 1])
 
     while avals[-2:] != [0, 0]:
-        if verbose:
+        if verbose > 0:
             print(f"\r@ {len(avals)}, {avals}", end="")
         tvals += [next(t_sequence_generator)]
         try:
             avals += [subtracted[-1](tvals[-1])]
         except catch_errors as error:
-            if verbose:
+            if verbose > 0:
                 print(f"\n[Newton_polynomial_interpolation] Caught {type(error).__name__} - skipping sample.", end=" ")
             tvals = tvals[:-1]
             skips += 1
@@ -37,13 +37,13 @@ def Newton_polynomial_interpolation(f, prime, seed=0, verbose=False, as_nested_s
         else:
             fsubtracted_partial = functools.partial(fsubtracted, len(avals))
             subtracted += [fsubtracted_partial]
-    if verbose:
+    if verbose > 0:
         print(f"\r[Newton_polynomial_interpolation] Finished after {len(avals)} samples: {avals}.", end=" ")
     if as_nested_sum:
         tpoly = "0"
         for aval, tval in zip(avals[:-2][::-1], tvals[:-2][::-1]):
             tpoly = f"({int(aval)}+(t-{int(tval)})*({tpoly}))"
-        if verbose:
+        if verbose > 0:
             print(f"\nNested sum representation: {tpoly}")
         return eval(tpoly)
     FFGF = sympy.GF(prime).frac_field(t)
@@ -76,7 +76,7 @@ def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0,
         return (t - tvals[i - 1]) / denom
 
     while True:
-        if verbose:
+        if verbose > 0:
             print(f"\r@ {len(avals)}, {avals}", end="")
 
         tval = next(t_sequence_generator)
@@ -87,7 +87,7 @@ def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0,
             break
         except catch_errors as error:
             skips += 1
-            if verbose:
+            if verbose > 0:
                 print(f"\n[Thiele_rational_interpolation] Caught {type(error).__name__} - skipping sample.", end=" ")
             if skips >= max_skips:
                 raise RuntimeError(f"Too many ({max_skips}) {type(error).__name__} skips; check t-sequence / interpolation.") from error
@@ -97,7 +97,7 @@ def Thiele_rational_interpolation(f, prime, as_continued_fraction=False, seed=0,
         avals.append(aval)
         subtracted.append(functools.partial(fsubtracted, len(avals)))
 
-    if verbose:
+    if verbose > 0:
         print(f"\r[Thiele_rational_interpolation] Finished after {len(avals)} samples: {avals}.", end=" ")
 
     if as_continued_fraction:
@@ -147,7 +147,7 @@ def multivariate_Newton_polynomial_interpolation(f, prime, seed=0, depth=0, verb
     for counter in range(MAX_SAMPLES):
         if avals[-2:] == [0, 0]:
             break
-        if verbose:
+        if verbose > 0:
             if depth != 0:
                 print()
             print(f"[multivariate Newton poly interpolation] @ depth: {depth} - samples: {len(avals)}, {(avals, tvals)}", end="\n")
@@ -163,13 +163,13 @@ def multivariate_Newton_polynomial_interpolation(f, prime, seed=0, depth=0, verb
         fsubtracted_partial = functools.partial(fsubtracted, len(avals))
         subtracted += [fsubtracted_partial]
 
-    if verbose:
+    if verbose > 0:
         print(f"\n[multivariate Newton poly interpolation] Finished after {len(avals)} samples: {avals}.", end="\n")
 
     FFGF = sympy.GF(prime).frac_field(*sympy.symbols([f't{i}' for i in range(1, num_args + 1)]))
     tpoly = FFGF(0)
     for i, (aval, tval) in enumerate(zip(avals[:-2][::-1], tvals[:-2][::-1])):
-        if verbose:
+        if verbose > 0:
             print(f"\n[multivariate Newton poly interpolation] Assembling results at {i + 1}/{len(avals) - 2}", end="")
         tpoly = FFGF(aval.as_expr()) + (FFGF(sympy.symbols('t1')) - int(tval)) * tpoly
     return tpoly.as_expr()
