@@ -383,6 +383,10 @@ def vec_chained_FF_rationalize(tensors, primes, factor=1, algorithm=LGRR, optimi
     return Qtensor
 
 
+def vec_FF_rationalize(tensor, prime, **kwargs):
+    return vec_chained_FF_rationalize([tensor], [prime], **kwargs)
+
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 
