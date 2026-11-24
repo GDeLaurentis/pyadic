@@ -13,15 +13,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
 
-    - name: Set up Python 3.9
-      uses: actions/setup-python@v4
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v6
       with:
-        python-version: 3.9
+        python-version: '3.x'
   
     - name: Checkout this Repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
       with:
         path: pyadic
 
