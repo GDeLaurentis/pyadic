@@ -11,7 +11,7 @@ with (this_directory / "pyadic" / "version.py").open() as f:
 setup(
     name='pyadic',
     version=version,
-    license='GNU General Public License v3.0',
+    license='GPL-3.0-or-later',
     description='p-Adic numbers and finite fields in Python',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -29,12 +29,12 @@ setup(
     install_requires=[
         'numpy',
         'sympy',
+        'mpmath',
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Science/Research',
         'Topic :: Scientific/Engineering :: Physics',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
